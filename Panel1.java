@@ -7,7 +7,7 @@ public class Panel03 extends JPanel
    private JLabel label1, label2;
    private JTextField box;
    private int number, count;
-   public Panel03()
+   public Panel1()
    {
       setLayout(new FlowLayout());
       number = 37;     //number gets 37
