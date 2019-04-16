@@ -2,7 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-public class Panel03 extends JPanel
+public class Panel1 extends JPanel
 {
    private JLabel label1, label2;
    private JTextField box;
