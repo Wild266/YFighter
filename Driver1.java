@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 
 
-public class Driver03{
+public class Driver1{
    public static void main(String[] args){
       JFrame frame = new JFrame("Hailstone dumbers");
       frame.setSize(300, 300);
