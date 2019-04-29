@@ -9,7 +9,7 @@ public class Driver1{
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setContentPane(new Panel1());
       frame.setVisible(true);
-   
+      
    }
 
 

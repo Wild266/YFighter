@@ -2,6 +2,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 public class Panel1 extends JPanel
 {
    private JLabel label1;
@@ -19,25 +23,40 @@ public class Panel1 extends JPanel
       add(panel);
    
       JButton button2 = new JButton("Play");
-      button2.addActionListener(new Listener2());
+      button2.addActionListener(new Listener1());
       panel.add(button2);
    
       JButton button3 = new JButton("Quit");
-      button3.addActionListener(new Listener3());
+      button3.addActionListener(new Listener2());
       panel.add(button3);
    
 
    }
+   @Override
+  protected void paintComponent(Graphics g) {
+Image wall;
 
-   private class Listener2 implements ActionListener
+    try 
+        {wall = ImageIO.read(new File("space.jpg"));
+        super.paintComponent(g);
+        g.drawImage(wall, 0, 0, null);
+        }
+    catch (IOException e)
+        {e.printStackTrace();}
+    
+}
+
+   private class Listener1 implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
-    	  
+    	   removeAll();
+         revalidate();
+         repaint();
       }
       
    }
-   private class Listener3 implements ActionListener
+   private class Listener2 implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
       {
