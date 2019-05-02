@@ -6,22 +6,28 @@ public class Stubs
     }
     public void startGUI()
     {
-    
+        System.out.println("startGUI");
+        loadGame();
     }
     public void loadGame()
     {
+        System.out.println("loadGame");
     }
     public bool[] getInputs()
     {
+        System.out.println("getInputs");
     }
     public void update()
     {
+        System.out.println("update");
     }
     public void draw()
     {
+        System.out.println("draw");
     }
     public void endGame()
     {
+        System.out.println("endGame");
     }
     public class Fighter
     {
@@ -64,9 +70,11 @@ public class Stubs
     }
     public double[] getHitBox(double fighterX, double fighterY)
     {
+        System.out.println("getHitBox");
     } 
     public double[] getKnockback()
     {
+        System.out.println("getKnockback");
     } 
 
 }
