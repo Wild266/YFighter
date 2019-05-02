@@ -4,11 +4,12 @@ public class Stubs
     {
         startGUI();
         loadGame();
-        while (Fighter1.getHealth() > 0 && Fighter2.getHealth > 0){
+        while (Fighter1.getHealth() > 0 && Fighter2.getHealth > 0)
+        {
             Update();
             Draw();
         }
-        EndGame();
+        endGame();
     }
     public void startGUI()
     {
