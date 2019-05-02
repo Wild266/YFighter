@@ -1,19 +1,18 @@
 public class Stubs
 {
-    public static void main(String[] args)
+    public class Driver
     {
-        startGUI();
-        loadGame();
-        while (Fighter1.getHealth() > 0 && Fighter2.getHealth > 0)
+        public static void main(String[] args)
         {
-            Update();
-            Draw();
+            startGUI();
+            loadGame();
+            while (Fighter1.getHealth() > 0 && Fighter2.getHealth > 0)
+            {
+                Update();
+                Draw();
+            }
+            endGame();
         }
-        endGame();
-    }
-    public void startGUI()
-    {
-        System.out.println("startGUI");
     }
     public void loadGame()
     {
@@ -23,70 +22,71 @@ public class Stubs
     {
         System.out.println("getInputs");
     }
-    public void update()
-    {
-        System.out.println("update");
-    }
-    public void draw()
-    {
-        System.out.println("draw");
-    }
     public void endGame()
     {
         System.out.println("endGame");
     }
-    public void getHealth()
-    {
-        return health;
-    }
     public class Fighter
     {
         double health;
+        public void getHealth()
+        {
+            return health;
+        }
+        public double[] getHitBox(double fighterX, double fighterY)
+        {
+            System.out.println("getHitBox");
+        } 
+        public double[] getKnockback()
+        {
+            System.out.println("getKnockback");
+        }
+        public class AirDirection implements Attack
+        {
+        }
+        public class AirDown implements Attack
+        {
+        }
+        public class AirNeutral implements Attack
+        {
+        }
+        public class CrouchDirection implements Attack
+        {
+        }
+        public class CrouchUp implements Attack
+        {
+        }
+        public class CrouchNeutral implements Attack
+        {
+        }
+        public class BasicDirection implements Attack
+        {
+        }
+        public class BasicNeutral implements Attack
+        {
+        }
+        public class BasicUp implements Attack
+        {
+        }
     }
     public class Platform
     {
     }
-    public class Driver
+    public class Display
     {
+        public void startGUI()
+        {
+            System.out.println("startGUI");
+        }
+        public void update()
+        {
+            System.out.println("update");
+        }
+        public void draw()
+        {
+            System.out.println("draw");
+        }
     }
-    public class panel01
-    {
-    }
-    public class AirDirection implements Attack
-    {
-    }
-    public class AirDown implements Attack
-    {
-    }
-    public class AirNeutral implements Attack
-    {
-    }
-    public class CrouchDirection implements Attack
-    {
-    }
-    public class CrouchUp implements Attack
-    {
-    }
-    public class CrouchNeutral implements Attack
-    {
-    }
-    public class BasicDirection implements Attack
-    {
-    }
-    public class BasicNeutral implements Attack
-    {
-    }
-    public class BasicUp implements Attack
-    {
-    }
-    public double[] getHitBox(double fighterX, double fighterY)
-    {
-        System.out.println("getHitBox");
-    } 
-    public double[] getKnockback()
-    {
-        System.out.println("getKnockback");
-    } 
 
 }
 
