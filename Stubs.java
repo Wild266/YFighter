@@ -22,10 +22,6 @@ public class Stubs
     {
         System.out.println("getInputs");
     }
-    public void endGame()
-    {
-        System.out.println("endGame");
-    }
     public class Fighter
     {
         double health;
@@ -43,30 +39,39 @@ public class Stubs
         }
         public class AirDirection implements Attack
         {
+            System.out.println("AirDirection");
         }
         public class AirDown implements Attack
         {
+            System.out.println("AirDown");
         }
         public class AirNeutral implements Attack
         {
+            System.out.println("AirNeutral");
         }
         public class CrouchDirection implements Attack
         {
+            System.out.println("CrouchDirection");
         }
         public class CrouchUp implements Attack
         {
+            System.out.println("CrouchUp");
         }
         public class CrouchNeutral implements Attack
         {
+            System.out.println("CrouchNeutral");
         }
         public class BasicDirection implements Attack
         {
+            System.out.println("BasicDirection");
         }
         public class BasicNeutral implements Attack
         {
+            System.out.println("BasicNeutral");
         }
         public class BasicUp implements Attack
         {
+            System.out.println("BasicUp");
         }
     }
     public class Platform
@@ -85,6 +90,10 @@ public class Stubs
         public void draw()
         {
             System.out.println("draw");
+        }
+        public void endGame()
+        {
+            System.out.println("endGame");
         }
     }
 
