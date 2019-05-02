@@ -2,12 +2,17 @@ public class Stubs
 {
     public static void main(String[] args)
     {
-        
+        startGUI();
+        loadGame();
+        while (Fighter1.getHealth() > 0 && Fighter2.getHealth > 0){
+            Update();
+            Draw();
+        }
+        EndGame();
     }
     public void startGUI()
     {
         System.out.println("startGUI");
-        loadGame();
     }
     public void loadGame()
     {
@@ -29,8 +34,13 @@ public class Stubs
     {
         System.out.println("endGame");
     }
+    public void getHealth()
+    {
+        return health;
+    }
     public class Fighter
     {
+        double health;
     }
     public class Platform
     {
