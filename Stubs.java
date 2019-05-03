@@ -69,7 +69,7 @@ public class Stubs
         {
             System.out.println("BasicNeutral");
         }
-        public class BasicUp implements Attack
+        public class BasicUp extends Attack
         {
             System.out.println("BasicUp");
         }
