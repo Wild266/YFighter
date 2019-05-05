@@ -1,13 +1,12 @@
 import java.awt.Canvas;
-import java.awt.Dimension;
+//import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
 public class Window extends Canvas {
 
 	
-	private static final long serialVersionUID = -8255319694373975038L;
-	public Window(int width, int height/*, Game game*/) {
+	public Window(/*, Game game*/) {
 		
 		JFrame frame = new JFrame("Yeet Fighter");
 	        frame.setSize(600, 300);
