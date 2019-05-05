@@ -15,7 +15,6 @@ public class Game extends Canvas implements Runnable {
 	
 	private Handler handler;
 	private HUD hud;
-	private Spawn spawner;
 	
 	
 	
@@ -30,7 +29,6 @@ public class Game extends Canvas implements Runnable {
 		new Window();
 		
 		hud = new HUD();
-		spawner = new Spawn(handler, hud);
 		
 		if(gameState == States.Game) {
 		handler.addObject(new Player(WIDTH/2-32, HEIGHT/2-32 , ID.Player, handler));	
