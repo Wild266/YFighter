@@ -8,13 +8,13 @@ public class Window extends Canvas {
 	
 	public Window(/*, Game game*/) {
 		
-		JFrame frame = new JFrame("Yeet Fighter");
+			JFrame frame = new JFrame("Yeet Fighter");
 	        frame.setSize(600, 300);
 	        frame.setLocation(200,100);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setContentPane(new Panel1());
 	        frame.setVisible(true);
-		frame.setResizable(false);
+	        frame.setResizable(false);
 		
 		
 		
