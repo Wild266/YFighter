@@ -53,6 +53,10 @@ Image wall;
     	   removeAll();
          revalidate();
          repaint();
+         
+         
+         GamePanel Game = new GamePanel();
+         add(Game);
       }
       
    }
