@@ -25,3 +25,4 @@ public class GamePanel extends JPanel
       // draw the rectangle here
       g.drawRect(20, 40, 50, 60); //g.drawRect(RECT_X, RECT_Y, RECT_WIDTH, RECT_HEIGHT);
    }
+}
