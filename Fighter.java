@@ -4,8 +4,7 @@ public class Fighter
    double pos[] = new double[2];
    int size;
    double[] mvntVel = new double[2];
-   double[] knckbackVel = new double[2];
-   boolean crouching = false;
+   double[] knockBackVel = new double[2];
    boolean jumping = false;
 
    Fighter(double newHealth, double newX, double newY, int newSize)
@@ -16,27 +15,45 @@ public class Fighter
       this.size = newSize;
       System.out.println("made new fighter with " + this.health + " health");
    }
-
+   
    public double getHealth()
    {
-      //System.out.println("getting player health");
-      return health;
+      return this.health;
+   }
+
+   public void setHealth(double h)
+   {
+      this.health = h;
    }
    
    public double[] getMvmtVel()
    {
-      return mvntVel;
+      return this.mvntVel;
+   }
+   public void setMvmtVel(double x, double y)
+   {
+      this.mvntVel[0] = x;
+      this.mvntVel[1] = y;
    }
 
-   public void setHealth(double newHealth)
+   public double[] getKnockBackVel()
    {
-      System.out.println("setting player health");
-      this.health = newHealth;
+      return this.knockBackVel;
+   }
+   public void setKnockBackVel(double x, double y)
+   {
+      this.knockBackVel[0] = x;
+      this.knockBackVel[1] = y;
    }
 
    public int getSize()
    {
       return this.size;
+   }
+
+   public double[] getPos()
+   {
+      return this.pos;
    }
 
    public void setPos(double x, double y)
@@ -45,9 +62,22 @@ public class Fighter
       this.pos[1] = y;
    }
 
+   public void setJumping(boolean j){
+      this.jumping = j;
+   }
+
+   public boolean getJumping(){
+      return this.jumping;
+   }
+
+
+
+
+
+
+   /*
    public double[] getHitBox()
    {
-      //System.out.println("getting corner positions of player");
       double hitbox[] = new double[4];
       hitbox[0] = this.pos[0];
       hitbox[1] = this.pos[1];
@@ -59,7 +89,16 @@ public class Fighter
       }
       return hitbox;
    } 
+   */
    
+
+
+
+
+
+
+
+
    public abstract class Attack
    {
       double x;
