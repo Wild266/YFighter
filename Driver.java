@@ -7,7 +7,7 @@ public class Driver
     public static void main(String[] args)
     {   
         JFrame frame = new JFrame("Yeet Fighter");
-        frame.setSize(960, 640);
+        frame.setSize(965, 640);
         frame.setLocation(200,100);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,6 +19,8 @@ public class Driver
         Fighter f2;
         Platform plat = new Platform(550);
         Fighter fighters[] = new Fighter[2];
+        while(disp.getMode() == 0){}
+        
         fighters = disp.loadGame(plat);
 
         int fps = 60;
@@ -47,11 +49,11 @@ public class Driver
             }
 
             if(timer >= 1000000000){
-                System.out.println(ticks);
+//               System.out.println(ticks);
                 ticks = 0;
                 timer = 0;
             }
         }
-        //disp.endGame(fighters);
+        disp.endGame(fighters);
     }
 }
