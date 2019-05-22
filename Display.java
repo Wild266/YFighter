@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class Display extends Thread,JPanel implements ActionListener ,KeyListener
+public class Display extends JPanel implements ActionListener ,KeyListener
 {
    private Image backgroundImage;
    private int mode = 0; 
@@ -14,11 +14,7 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
    private int yMin = 0;
    
    private boolean[][] buttons = new boolean[2][6];
-   private boolean right = false;
-   private boolean left = false;
-   private boolean up = false;
-   private boolean down = false;
-   private Timer timer;
+  // private Timer timer;
    
 
    private Fighter[] dFs = new Fighter[2];
@@ -38,8 +34,8 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
       }
       
    
-      timer = new Timer(8, this);
-      timer.start();
+      //timer = new Timer(12, this);
+      //timer.start();
    }
 
    public void paint(Graphics g)
@@ -57,11 +53,10 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
       {
          g.setColor(Color.white);
          g.fillRect(0,yMin, 1000, 10);
-         double[] p1 = dFs[0].getHitBox();
-         double[] p2 = dFs[1].getHitBox();
-         g.fillRect((int)p1[0],(int)p1[1],(int)(p1[3] - p1[0]),dFs[0].getSize());
+         g.setColor(Color.red);
+         g.fillRect((int)dFs[0].getPos()[0],(int)dFs[0].getPos()[1],dFs[0].getSize(),dFs[0].getSize());
          g.setColor(Color.blue);
-         g.fillRect((int)p2[0],(int)p2[1],(int)(p2[3] - p2[0]),dFs[1].getSize());
+         g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
       
       } 
       g.dispose();
@@ -70,8 +65,7 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
    @Override
    public void actionPerformed(ActionEvent e)
    {
-      timer.start();        
-      repaint();
+
    }
 
 
@@ -207,49 +201,74 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
       mode = 1;
       return fs;
    }
-   /*
-   public boolean[] getInputs()
+   
+   public boolean[][] getInputs()
    {
-       boolean out[] = new boolean[1];
-       System.out.println("getting inputs");
-       return out;
+      return buttons;
    }
-   */
-   public Fighter[] update(Fighter[] fs, Platform plat, boolean[] inputs)
+
+   public Fighter[] update(Fighter[] fs, Platform plat, boolean[][] inputs)
    {
-      double s = .00007;
-      if (buttons[0][0] == true)
+      double s  = 2;
+      double j  = 20;
+      double mX = 10;
+      double g  = 1.5;
+      double f = 1.15;
+      double kf = 1.09;
+
+      if (inputs[0][0] == true && fs[0].getPos()[1] == plat.getY()- fs[0].getSize())
       {
-         fs[0].setPos(fs[0].getHitBox()[0],fs[0].getHitBox()[1]-s);
+         fs[0].setMvmtVel(fs[0].getMvmtVel()[0],  -j);
       }
-      if (buttons[0][1] == true)
+      if (inputs[0][3] == true)
       {
-         fs[0].setPos(fs[0].getHitBox()[0]-s,fs[0].getHitBox()[1]);
+         if (fs[0].getMvmtVel()[0] < 0){
+            fs[0].setMvmtVel(s, fs[0].getMvmtVel()[1]);
+         }
+         else{
+            fs[0].setMvmtVel(fs[0].getMvmtVel()[0] + s, fs[0].getMvmtVel()[1]);
+         }
+         
       }
-      if (buttons[0][2] == true)
+      else if (inputs[0][1] == true)
       {
-         fs[0].setPos(fs[0].getHitBox()[0],fs[0].getHitBox()[1]+s);
-      }
-      if (buttons[0][3] == true)
-      {
-         fs[0].setPos(fs[0].getHitBox()[0]+s,fs[0].getHitBox()[1]);
+         if (fs[0].getMvmtVel()[0] > 0){
+            fs[0].setMvmtVel(-s, fs[0].getMvmtVel()[1]);
+         }
+         else{
+            fs[0].setMvmtVel(fs[0].getMvmtVel()[0] - s, fs[0].getMvmtVel()[1]);
+         }
       }
       
-      if (buttons[1][0] == true)
+      
+      if (inputs[1][0] == true && fs[1].getPos()[1] == plat.getY() - fs[1].getSize())
       {
-         fs[1].setPos(fs[1].getHitBox()[0],fs[1].getHitBox()[1]-s);
+         fs[1].setMvmtVel(fs[1].getMvmtVel()[0], -j);
       }
-      if (buttons[1][1] == true)
+      if (inputs[1][1] == true)
       {
-         fs[1].setPos(fs[1].getHitBox()[0]-s,fs[1].getHitBox()[1]);
+         if (fs[1].getMvmtVel()[0] > 0){
+            fs[1].setMvmtVel(-s, fs[1].getMvmtVel()[1]);
+         }
+         else{
+            fs[1].setMvmtVel(fs[1].getMvmtVel()[0] - s, fs[1].getMvmtVel()[1]);
+         }
+         
       }
-      if (buttons[1][2] == true)
+      else if (inputs[1][3] == true)
       {
-         fs[1].setPos(fs[1].getHitBox()[0],fs[1].getHitBox()[1]+s);
+         if (fs[1].getMvmtVel()[0] < 0){
+            fs[1].setMvmtVel(s, fs[1].getMvmtVel()[1]);
+         }
+         else{
+            fs[1].setMvmtVel(fs[1].getMvmtVel()[0] + s, fs[1].getMvmtVel()[1]);
+         }
       }
-      if (buttons[1][3] == true)
+
+      if (inputs[0][4] == true)
       {
-         fs[1].setPos(fs[1].getHitBox()[0]+s,fs[1].getHitBox()[1]);
+         fs[1].setMvmtVel(0, 0);
+         fs[1].setKnockBackVel(30,-30);
       }
       
       /*
@@ -262,15 +281,47 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
       System.out.println("setting new player healths");
       //fs[0].setHealth(fs[0]);
       */
-      
-      if(fs[0].getHitBox()[1] + fs[0].getSize() > plat.getY())
+
+      if(fs[0].getMvmtVel()[0] > mX)
       {
-         fs[0].setPos(fs[0].getHitBox()[0],plat.getY() - fs[0].getSize());
+         fs[0].setMvmtVel(mX, fs[0].getMvmtVel()[1]);
+      }
+      if(fs[1].getMvmtVel()[0] > mX)
+      {
+         fs[1].setMvmtVel(mX, fs[1].getMvmtVel()[1]);
+      }
+      if(fs[0].getMvmtVel()[0] < -mX)
+      {
+         fs[0].setMvmtVel(-mX, fs[0].getMvmtVel()[1]);
+      }
+      if(fs[1].getMvmtVel()[0] < -mX)
+      {
+         fs[1].setMvmtVel(-mX, fs[1].getMvmtVel()[1]);
+      }
+
+      fs[0].setPos(fs[0].getPos()[0] + fs[0].getMvmtVel()[0] + fs[0].getKnockBackVel()[0],fs[0].getPos()[1] + fs[0].getMvmtVel()[1] + fs[0].getKnockBackVel()[1]);
+      fs[1].setPos(fs[1].getPos()[0] + fs[1].getMvmtVel()[0] + fs[1].getKnockBackVel()[0],fs[1].getPos()[1] + fs[1].getMvmtVel()[1] + fs[1].getKnockBackVel()[1]);
+
+      fs[0].setMvmtVel(fs[0].getMvmtVel()[0]/f, fs[0].getMvmtVel()[1] + g);
+      fs[1].setMvmtVel(fs[1].getMvmtVel()[0]/f, fs[1].getMvmtVel()[1] + g);
+
+      fs[0].setKnockBackVel(fs[0].getKnockBackVel()[0]/kf, fs[0].getKnockBackVel()[1]/kf);
+      fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0]/kf, fs[1].getKnockBackVel()[1]/kf);
+
+      
+      
+      if(fs[0].getPos()[1] + fs[0].getSize() > plat.getY())
+      {
+         fs[0].setPos(fs[0].getPos()[0],plat.getY() - fs[0].getSize());
+         fs[0].setMvmtVel(fs[0].getMvmtVel()[0], 0);
+         fs[0].setKnockBackVel(fs[0].getKnockBackVel()[0], 0);
          
       }
-      if(fs[1].getHitBox()[1] + fs[1].getSize() > plat.getY())
+      if(fs[1].getPos()[1] + fs[1].getSize() > plat.getY())
       {
-         fs[1].setPos(fs[1].getHitBox()[0],plat.getY() - fs[1].getSize());
+         fs[1].setPos(fs[1].getPos()[0],plat.getY() - fs[1].getSize());
+         fs[1].setMvmtVel(fs[1].getMvmtVel()[0], 0);
+         fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0], 0);fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0], 0);
          
       }
       return fs; 
@@ -280,6 +331,8 @@ public class Display extends Thread,JPanel implements ActionListener ,KeyListene
    public void draw(Fighter[] fs)
    {
       this.dFs = fs;
+      //timer.start();        
+      repaint();
    }
    /*
    public void endGame(Fighter[] fs)
