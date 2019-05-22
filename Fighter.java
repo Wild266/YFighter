@@ -6,6 +6,10 @@ public class Fighter
    double[] mvntVel = new double[2];
    double[] knockBackVel = new double[2];
    boolean jumping = false;
+   boolean right = false;
+   int attacking = 0;
+   int attackT = 0;
+   
 
    Fighter(double newHealth, double newX, double newY, int newSize)
    {
@@ -20,7 +24,7 @@ public class Fighter
    {
       return this.health;
    }
-
+   
    public void setHealth(double h)
    {
       this.health = h;
@@ -62,35 +66,45 @@ public class Fighter
       this.pos[1] = y;
    }
 
-   public void setJumping(boolean j){
+   public void setJumping(boolean j)
+   {
       this.jumping = j;
    }
 
-   public boolean getJumping(){
+   public boolean getJumping()
+   {
       return this.jumping;
    }
-
-
-
-
-
-
-   /*
-   public double[] getHitBox()
-   {
-      double hitbox[] = new double[4];
-      hitbox[0] = this.pos[0];
-      hitbox[1] = this.pos[1];
-      hitbox[2] = this.pos[0] + this.size;
-      hitbox[3] = this.pos[0] + this.size;
-      if (this.crouching)
-      {
-         hitbox[3] = hitbox[3]/ 2.0;
-      }
-      return hitbox;
-   } 
-   */
    
+   public void setAttacking(int a)
+   {
+      this.attacking = a;
+   }
+   
+   public int getAttacking()
+   {
+      return this.attacking;
+   }
+   
+   public void setRight(boolean r)
+   {
+      this.right = r;
+   }
+   
+   public boolean getRight()
+   {
+      return this.right;
+   }
+   
+   public void setAttackT(int a)
+   {
+      this.attackT = a;
+   }
+   
+   public int getAttackT()
+   {
+      return this.attackT;
+   }
 
 
 
@@ -101,93 +115,133 @@ public class Fighter
 
    public abstract class Attack
    {
-      double x;
-      double y;
-      double width;
-      double height;
+      double[] pos;
+      double[] size;
       double damage;
-      double knockback;
+      double[] knockback;
       
-      public double getknockback()
+      public double[] getknockback()
       {
-         System.out.println("getting knockback of attack");
-         return 0;
+         return this.knockback;
       }
       
       public double getdamage()
       {
-         System.out.println("getting damage of attack");
-         return 0;
+         return this.damage;
       }
-      public double[] getHitBox()
+      public double[] getPos()
       {
-         double h[] = new double[4];
-         System.out.println("getting corner positions of attack");
-         return h;
+         return this.pos;
       }
+      
+      public double[] getSize()
+      {
+         return this.size;
+      }
+      
    }
    public class AirDirection extends Attack
    {
-      double width;
-      double height;
+      double[] pos = new double[2];
+      double[] size = new double[2];
       double damage;
-      double knockback; 
+      double[] knockback = new double[2]; 
+      
+      AirDirection(double[] f){
+         this.pos[0] = f[0] + 0;
+         this.pos[1] = f[1] + 0;
+         this.size[0] = 10;
+         this.size[1] = 10;
+         this.damage = 50;
+         this.knockback[0] = 20;
+         this.knockback[1] = -5; 
+      } 
    }
    public class AirDown extends Attack
    {
-      double width;
-      double height;
+      double[] pos = new double[2];
+      double[] size = new double[2];
       double damage;
-      double knockback;  
+      double[] knockback = new double[2];
+      
+      AirDown(double[] f){
+         this.pos[0] = f[0] + 0;
+         this.pos[1] = f[1] + 0;
+         this.size[0] = 10;
+         this.size[1] = 10;
+         this.damage = 50;
+         this.knockback[0] = 20;
+         this.knockback[1] = -5; 
+      }   
    }
    public class AirNeutral extends Attack
    {
-      double width;
-      double height;
+      double[] pos = new double[2];
+      double[] size = new double[2];
       double damage;
-      double knockback;  
-   }
-   public class CrouchDirection extends Attack
-   {
-      double width;
-      double height;
-      double damage;
-      double knockback; 
-   }
-   public class CrouchUp extends Attack
-   {
-      double width;
-      double height;
-      double damage;
-      double knockback;
-   }
-   public class CrouchNeutral extends Attack
-   {
-      double width;
-      double height;
-      double damage;
-      double knockback;   
+      double[] knockback = new double[2]; 
+      
+      AirNeutral(double[] f){
+         this.pos[0] = f[0] + 0;
+         this.pos[1] = f[1] + 0;
+         this.size[0] = 10;
+         this.size[1] = 10;
+         this.damage = 50;
+         this.knockback[0] = 20;
+         this.knockback[1] = -5; 
+      } 
    }
    public class BasicDirection extends Attack
    {
-      double width;
-      double height;
+      double[] pos = new double[2];
+      double[] size = new double[2];
       double damage;
-      double knockback;   
+      double[] knockback = new double[2]; 
+      
+      BasicDirection(double[] f){
+         this.pos[0] = f[0] + 0;
+         this.pos[1] = f[1] + 0;
+         this.size[0] = 10;
+         this.size[1] = 10;
+         this.damage = 50;
+         this.knockback[0] = 20;
+         this.knockback[1] = -5; 
+      }  
    }
    public class BasicNeutral extends Attack
-   {
-      double width;
-      double height;
+   {      
+      double[] pos = new double[2];
+      double[] size = new double[2];
       double damage;
-      double knockback;  
+      double[] knockback = new double[2];
+            
+      BasicNeutral(double[] f){
+         this.pos[0] = f[0] + 0;
+         this.pos[1] = f[1] + 0;
+         this.size[0] = 10;
+         this.size[1] = 10;
+         this.damage = 50;
+         this.knockback[0] = 20;
+         this.knockback[1] = -5; 
+      } 
    }
    public class BasicUp extends Attack
    {
-      double width;
-      double height;
+      double[] pos = new double[2];
+      double[] size = new double[2];
       double damage;
-      double knockback;  
+      double[] knockback = new double[2];
+      
+      BasicUp(double[] f){
+         this.pos[0] = f[0] + 0;
+         this.pos[1] = f[1] + 0;
+         this.size[0] = 10;
+         this.size[1] = 10;
+         this.damage = 50;
+         this.knockback[0] = 20;
+         this.knockback[1] = -5; 
+      } 
+        
    }
    
 }
