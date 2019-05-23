@@ -2,8 +2,6 @@ import javax.swing.*;
 
 public class Driver
 {
-    Display disp;
-
     public static void main(String[] args)
     {   
         JFrame frame = new JFrame("Yeet Fighter");
@@ -19,8 +17,12 @@ public class Driver
         Fighter f2;
         Platform plat = new Platform(550);
         Fighter fighters[] = new Fighter[2];
-        while(disp.getMode() == 0){}
-        
+        int m = 0;
+        while(disp.getMode() == 0)
+        {
+
+        }
+        System.out.println("dang");
         fighters = disp.loadGame(plat);
 
         int fps = 60;

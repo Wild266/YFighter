@@ -9,15 +9,11 @@ import javax.imageio.ImageIO;
 public class Display extends JPanel implements KeyListener
 {
    private Image backgroundImage;
-   private int mode = 0; 
+   private volatile int mode = 0; 
 
    private int yMin = 0;
-   
    private int totalH = 1000;
-   
-   private boolean[][] buttons = new boolean[2][6];
-  // private Timer timer;
-   
+   private boolean[][] buttons = new boolean[2][6];   
 
    private Fighter[] dFs = new Fighter[2];
 
@@ -38,8 +34,8 @@ public class Display extends JPanel implements KeyListener
    }
    
    public int getMode()
-   {
-      return mode;
+   { 
+      return this.mode;
    }
 
    public void paint(Graphics g)
@@ -47,6 +43,7 @@ public class Display extends JPanel implements KeyListener
       
       super.paint(g);
       g.drawImage(backgroundImage, 0, 0, null);
+      
       if(mode == 0)
       {
          g.setColor(Color.white);
@@ -69,8 +66,10 @@ public class Display extends JPanel implements KeyListener
          if(dFs[0].getAttacking() == 2){
             g.setColor(Color.red);
             
-            Fighter.BasicNeutral b = dFs[0].new BasicNeutral(dFs[0].getPos());
-            g.fillRect(b.getPos()[0],b.getPos()[1],b.getSize()[0],b.get)
+            Fighter.Attack b = dFs[0].getAttack();
+            
+            //g.fillRect((int)b.getPos()[0],(int)b.getPos()[1],b.getSize()[0],b.getSize()[1]);
+            g.fillRect(50,50,50,50);
          }
       
       }else if(mode == 2)
@@ -92,6 +91,7 @@ public class Display extends JPanel implements KeyListener
 
          }
       }
+      
       g.dispose();
    }
    
@@ -104,11 +104,10 @@ public class Display extends JPanel implements KeyListener
    @Override
    public void keyPressed(KeyEvent e)
    {
-      if( mode == 0)
-      {
+      //if (mode == 0){
          mode = 1;
-      }
-      else if(mode == 1)
+      //}else 
+      if(mode == 1)
       {
          if(e.getKeyChar() == 'w')
          {
@@ -304,6 +303,9 @@ public class Display extends JPanel implements KeyListener
          
          if(fs[0].getAttacking() == 0)
          {
+            Fighter.Attack b = fs[0].new BasicNeutral(fs[0].getPos());
+            fs[0].setAttack(b);
+            //System.out.println(fs[0].getAttack().getPos()[0]);
             fs[0].setMvmtVel(0,0);
             fs[0].setAttacking(1);
          }
@@ -314,6 +316,7 @@ public class Display extends JPanel implements KeyListener
       {
          if(fs[0].getAttackT() == 10)
          {
+            
             fs[1].setHealth(fs[1].getHealth() - 50);
             fs[0].setAttackT(0);
             fs[0].setAttacking(2);

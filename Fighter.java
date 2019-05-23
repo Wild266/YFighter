@@ -9,6 +9,7 @@ public class Fighter
    boolean right = false;
    int attacking = 0;
    int attackT = 0;
+   Attack attack;
    
 
    Fighter(double newHealth, double newX, double newY, int newSize)
@@ -20,6 +21,17 @@ public class Fighter
       System.out.println("made new fighter with " + this.health + " health");
    }
    
+   public void setAttack(Attack a)
+   {
+      System.out.println("wowweeeeeee");
+      this.attack = a;
+   }
+
+   public Attack getAttack()
+   {
+      return this.attack;
+   }
+
    public double getHealth()
    {
       return this.health;
@@ -116,7 +128,7 @@ public class Fighter
    public abstract class Attack
    {
       double[] pos;
-      double[] size;
+      int[] size;
       double damage;
       double[] knockback;
       
@@ -134,7 +146,7 @@ public class Fighter
          return this.pos;
       }
       
-      public double[] getSize()
+      public int[] getSize()
       {
          return this.size;
       }
@@ -143,7 +155,7 @@ public class Fighter
    public class AirDirection extends Attack
    {
       double[] pos = new double[2];
-      double[] size = new double[2];
+      int[] size = new int[2];
       double damage;
       double[] knockback = new double[2]; 
       
@@ -160,7 +172,7 @@ public class Fighter
    public class AirDown extends Attack
    {
       double[] pos = new double[2];
-      double[] size = new double[2];
+      int[] size = new int[2];
       double damage;
       double[] knockback = new double[2];
       
@@ -177,7 +189,7 @@ public class Fighter
    public class AirNeutral extends Attack
    {
       double[] pos = new double[2];
-      double[] size = new double[2];
+      int[] size = new int[2];
       double damage;
       double[] knockback = new double[2]; 
       
@@ -194,7 +206,7 @@ public class Fighter
    public class BasicDirection extends Attack
    {
       double[] pos = new double[2];
-      double[] size = new double[2];
+      int[] size = new int[2];
       double damage;
       double[] knockback = new double[2]; 
       
@@ -211,14 +223,14 @@ public class Fighter
    public class BasicNeutral extends Attack
    {      
       double[] pos = new double[2];
-      double[] size = new double[2];
+      int[] size = new int[2];
       double damage;
       double[] knockback = new double[2];
             
       BasicNeutral(double[] f){
          this.pos[0] = f[0] + 0;
          this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
+         this.size[0] = 100;
          this.size[1] = 10;
          this.damage = 50;
          this.knockback[0] = 20;
@@ -228,7 +240,7 @@ public class Fighter
    public class BasicUp extends Attack
    {
       double[] pos = new double[2];
-      double[] size = new double[2];
+      int[] size = new int[2];
       double damage;
       double[] knockback = new double[2];
       
