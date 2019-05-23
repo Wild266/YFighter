@@ -12,12 +12,15 @@ public class Display extends JPanel implements KeyListener
    private volatile int mode = 0; 
 
    private int yMin = 0;
-   
    private int totalH = 1000;
+   private boolean[][] buttons = new boolean[2][6];  
    
-   private boolean[][] buttons = new boolean[2][6];
-  // private Timer timer;
-   
+   private double s  = 2;
+   private double j  = 20;
+   private double mX = 10;
+   private double g  = 1.5;
+   private double f = 1.15;
+   private double kf = 1.09;
 
    private Fighter[] dFs = new Fighter[2];
 
@@ -38,8 +41,27 @@ public class Display extends JPanel implements KeyListener
    }
    
    public int getMode()
+   { 
+      return this.mode;
+   }
+
+   public int[] attackHitBox(Fighter f1)
    {
-      return mode;
+      int[] i = new int[4];
+
+      Fighter.Attack b = f1.getAttack();
+
+      if(f1.getRight()){
+         i[0] = (int)(b.getPos()[0] + f1.getPos()[0]);        
+      }else
+      {
+         i[0] = (int)(f1.getPos()[0] - b.getPos()[0] - b.getSize()[0] + f1.getSize());
+      }
+      i[1] = (int)(b.getPos()[1]+ f1.getPos()[1]);
+      i[2] = b.getSize()[0];
+      i[3] = b.getSize()[1];
+
+      return i;
    }
 
    public void paint(Graphics g)
@@ -47,6 +69,7 @@ public class Display extends JPanel implements KeyListener
       
       super.paint(g);
       g.drawImage(backgroundImage, 0, 0, null);
+      
       if(mode == 0)
       {
          g.setColor(Color.magenta);
@@ -65,17 +88,28 @@ public class Display extends JPanel implements KeyListener
          g.setColor(Color.red);
          
          g.fillRect(10,10,(int)((dFs[0].getHealth()/totalH) * 465),10);
-         g.fillRect(485,10,(int)((dFs[1].getHealth()/totalH) * 465),10);
+         g.fillRect(480,10,(int)((dFs[1].getHealth()/totalH) * 465),10);
          
          g.fillRect((int)dFs[0].getPos()[0],(int)dFs[0].getPos()[1],dFs[0].getSize(),dFs[0].getSize());
          g.setColor(Color.cyan);
          g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
          
-         if(dFs[0].getAttacking() == 2){
-            g.setColor(Color.red);
+         if(dFs[0].getAttacking() == 1){
+            g.setColor(Color.green);
             
-            Fighter.BasicNeutral b = dFs[0].new BasicNeutral(dFs[0].getPos());
-//             g.fillRect(b.getPos()[0],b.getPos()[1],b.getSize()[0],b.get);
+            int[] i = new int[4];
+            i = attackHitBox(dFs[0]);
+
+            g.fillRect(i[0],i[1],i[2],i[3]);
+         }
+
+         if(dFs[1].getAttacking() == 1){
+            g.setColor(Color.green);
+            
+            int[] i = new int[4];
+            i = attackHitBox(dFs[1]);
+
+            g.fillRect(i[0],i[1],i[2],i[3]);
          }
       
       }else if(mode == 2)
@@ -97,23 +131,22 @@ public class Display extends JPanel implements KeyListener
 
          }
       }
+      
       g.dispose();
    }
    
    @Override
    public void keyTyped(KeyEvent e)
-   {
-      
+   {   
    }
 
    @Override
    public void keyPressed(KeyEvent e)
    {
-      if( mode == 0)
-      {
+      if (mode == 0){
          mode = 1;
-      }
-      else if(mode == 1)
+      }else 
+      if(mode == 1)
       {
          if(e.getKeyChar() == 'w')
          {
@@ -222,7 +255,6 @@ public class Display extends JPanel implements KeyListener
       }
    }
 
-  
    public Fighter[] loadGame(Platform p)
    {
       yMin = p.getY();
@@ -240,106 +272,43 @@ public class Display extends JPanel implements KeyListener
       return buttons;
    }
 
+  
+
    public Fighter[] update(Fighter[] fs, Platform plat, boolean[][] inputs)
    {
-      double s  = 2;
-      double j  = 20;
-      double mX = 10;
-      double g  = 1.5;
-      double f = 1.15;
-      double kf = 1.09;
+      
       
       if(fs[0].getAttacking() != 1)
       {
-         if (inputs[0][0] == true && fs[0].getPos()[1] == plat.getY()- fs[0].getSize())
-         {
-            fs[0].setMvmtVel(fs[0].getMvmtVel()[0],  -j);
-         }
-         if (inputs[0][3] == true)
-         {
-            if (fs[0].getMvmtVel()[0] < 0){
-               fs[0].setMvmtVel(s, fs[0].getMvmtVel()[1]);
-            }
-            else{
-               fs[0].setMvmtVel(fs[0].getMvmtVel()[0] + s, fs[0].getMvmtVel()[1]);
-            }
-            
-         }
-         else if (inputs[0][1] == true)
-         {
-            if (fs[0].getMvmtVel()[0] > 0){
-               fs[0].setMvmtVel(-s, fs[0].getMvmtVel()[1]);
-            }
-            else{
-               fs[0].setMvmtVel(fs[0].getMvmtVel()[0] - s, fs[0].getMvmtVel()[1]);
-            }
-         }
+         setVels(fs[0],inputs[0],plat);
       }
-      
-      
-      if (inputs[1][0] == true && fs[1].getPos()[1] == plat.getY() - fs[1].getSize())
+      if(fs[1].getAttacking() != 1)
       {
-         fs[1].setMvmtVel(fs[1].getMvmtVel()[0], -j);
-      }
-      if (inputs[1][1] == true)
-      {
-         if (fs[1].getMvmtVel()[0] > 0){
-            fs[1].setMvmtVel(-s, fs[1].getMvmtVel()[1]);
-         }
-         else{
-            fs[1].setMvmtVel(fs[1].getMvmtVel()[0] - s, fs[1].getMvmtVel()[1]);
-         }
-         
-      }
-      else if (inputs[1][3] == true)
-      {
-         if (fs[1].getMvmtVel()[0] < 0){
-            fs[1].setMvmtVel(s, fs[1].getMvmtVel()[1]);
-         }
-         else{
-            fs[1].setMvmtVel(fs[1].getMvmtVel()[0] + s, fs[1].getMvmtVel()[1]);
-         }
+         setVels(fs[1],inputs[1],plat);
       }
 
-      if (inputs[0][4] == true)
-      {
-         //fs[1].setMvmtVel(0, 0);
-         //fs[1].setKnockBackVel(30,-30);
-         //fs[1].setHealth(fs[1].getHealth() - 10);
-         
-         if(fs[0].getAttacking() == 0)
-         {
-            fs[0].setMvmtVel(0,0);
-            fs[0].setAttacking(1);
-         }
-      }
+      fs[0].setPos(fs[0].getPos()[0] + fs[0].getKnockBackVel()[0],fs[0].getPos()[1] + fs[0].getKnockBackVel()[1]);
+      fs[1].setPos(fs[1].getPos()[0] + fs[1].getKnockBackVel()[0],fs[1].getPos()[1] + fs[1].getKnockBackVel()[1]);
+
+      fs[0].setKnockBackVel(fs[0].getKnockBackVel()[0]/kf, fs[0].getKnockBackVel()[1]/kf);
+      fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0]/kf, fs[1].getKnockBackVel()[1]/kf);
+
+      bringAbove(fs[0], plat);
+      bringAbove(fs[1], plat);
+
+      bringBack(fs[0]);
+      bringBack(fs[1]);
+
+
+      setAttacking(fs[0],plat,inputs[0]);
+      setAttacking(fs[1],plat,inputs[1]);
+
+      incrementAttack(fs[0],fs[1]);
+      incrementAttack(fs[1],fs[0]);
+      
+
       
       
-      if(fs[0].getAttacking() == 1)
-      {
-         if(fs[0].getAttackT() == 10)
-         {
-            fs[1].setHealth(fs[1].getHealth() - 50);
-            fs[0].setAttackT(0);
-            fs[0].setAttacking(2);
-         }else
-         {
-            fs[0].setAttackT(fs[0].getAttackT() + 1);
-         }
-      }
-      
-      if(fs[0].getAttacking() == 2)
-      {
-         if(fs[0].getAttackT() == 25)
-         {
-            fs[0].setAttackT(0);
-            fs[0].setAttacking(0);
-         }
-         else
-         {
-            fs[0].setAttackT(fs[0].getAttackT() + 1);
-         }
-      }
       
       /*
       System.out.println("moving fighters");
@@ -351,53 +320,149 @@ public class Display extends JPanel implements KeyListener
       System.out.println("setting new player healths");
       //fs[0].setHealth(fs[0]);
       */
-
-      if(fs[0].getMvmtVel()[0] > mX)
-      {
-         fs[0].setMvmtVel(mX, fs[0].getMvmtVel()[1]);
-      }
-      if(fs[1].getMvmtVel()[0] > mX)
-      {
-         fs[1].setMvmtVel(mX, fs[1].getMvmtVel()[1]);
-      }
-      if(fs[0].getMvmtVel()[0] < -mX)
-      {
-         fs[0].setMvmtVel(-mX, fs[0].getMvmtVel()[1]);
-      }
-      if(fs[1].getMvmtVel()[0] < -mX)
-      {
-         fs[1].setMvmtVel(-mX, fs[1].getMvmtVel()[1]);
-      }
-
-      fs[0].setPos(fs[0].getPos()[0] + fs[0].getMvmtVel()[0] + fs[0].getKnockBackVel()[0],fs[0].getPos()[1] + fs[0].getMvmtVel()[1] + fs[0].getKnockBackVel()[1]);
-      fs[1].setPos(fs[1].getPos()[0] + fs[1].getMvmtVel()[0] + fs[1].getKnockBackVel()[0],fs[1].getPos()[1] + fs[1].getMvmtVel()[1] + fs[1].getKnockBackVel()[1]);
-
-      fs[0].setMvmtVel(fs[0].getMvmtVel()[0]/f, fs[0].getMvmtVel()[1] + g);
-      fs[1].setMvmtVel(fs[1].getMvmtVel()[0]/f, fs[1].getMvmtVel()[1] + g);
-
-      fs[0].setKnockBackVel(fs[0].getKnockBackVel()[0]/kf, fs[0].getKnockBackVel()[1]/kf);
-      fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0]/kf, fs[1].getKnockBackVel()[1]/kf);
-
-      
-      
-      if(fs[0].getPos()[1] + fs[0].getSize() > plat.getY())
-      {
-         fs[0].setPos(fs[0].getPos()[0],plat.getY() - fs[0].getSize());
-         fs[0].setMvmtVel(fs[0].getMvmtVel()[0], 0);
-         fs[0].setKnockBackVel(fs[0].getKnockBackVel()[0], 0);
-         
-      }
-      if(fs[1].getPos()[1] + fs[1].getSize() > plat.getY())
-      {
-         fs[1].setPos(fs[1].getPos()[0],plat.getY() - fs[1].getSize());
-         fs[1].setMvmtVel(fs[1].getMvmtVel()[0], 0);
-         fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0], 0);fs[1].setKnockBackVel(fs[1].getKnockBackVel()[0], 0);
-         
-      }
       return fs; 
-   
    }
-   
+
+   public void setVels(Fighter f1,boolean[] inputs, Platform plat)
+   {
+      if (inputs[0] == true && f1.getPos()[1] == plat.getY()- f1.getSize())
+      {
+         f1.setMvmtVel(f1.getMvmtVel()[0],  -j);
+      }
+      if (inputs[3] == true)
+      {
+         f1.setRight(true);
+         if (f1.getMvmtVel()[0] < 0){
+            f1.setMvmtVel(s, f1.getMvmtVel()[1]);
+         }
+         else{
+            f1.setMvmtVel(f1.getMvmtVel()[0] + s, f1.getMvmtVel()[1]);
+         }
+         
+      }
+      else if (inputs[1] == true)
+      {
+         f1.setRight(false);
+         if (f1.getMvmtVel()[0] > 0){
+            f1.setMvmtVel(-s, f1.getMvmtVel()[1]);
+         }
+         else{
+            f1.setMvmtVel(f1.getMvmtVel()[0] - s, f1.getMvmtVel()[1]);
+         }
+      }
+
+      f1.setPos(f1.getPos()[0] + f1.getMvmtVel()[0],f1.getPos()[1] + f1.getMvmtVel()[1]);
+      f1.setMvmtVel(f1.getMvmtVel()[0]/f, f1.getMvmtVel()[1] + g);
+
+
+   }
+
+   public void bringAbove(Fighter f1, Platform plat)
+   {
+      if(f1.getPos()[1] + f1.getSize() > plat.getY())
+      {
+         f1.setPos(f1.getPos()[0],plat.getY() - f1.getSize());
+         f1.setMvmtVel(f1.getMvmtVel()[0], 0);
+         f1.setKnockBackVel(f1.getKnockBackVel()[0], 0);
+         
+      }
+   }
+
+   public void bringBack(Fighter f1)
+   {
+      if(f1.getPos()[0] + f1.getSize() > 950)
+      {
+         f1.setPos(950 - f1.getSize(),f1.getPos()[1]);
+         f1.setMvmtVel(0,f1.getMvmtVel()[1]);
+         f1.setKnockBackVel( -(f1.getKnockBackVel()[1]),f1.getKnockBackVel()[1]);
+         
+      }
+      if(f1.getPos()[0] < 0)
+      {
+         f1.setPos(0,f1.getPos()[1]);
+         f1.setMvmtVel(0,f1.getMvmtVel()[1]);
+         f1.setKnockBackVel(-f1.getKnockBackVel()[1],f1.getKnockBackVel()[1]);
+         
+      }
+   }
+
+   public void setAttacking (Fighter f1 , Platform plat, boolean[] inputs)
+   {
+      if (inputs[4] == true)
+      {
+         if(f1.getAttacking() == 0)
+         {
+            Fighter.Attack b;
+
+            if(f1.getPos()[1] + f1.getSize() < plat.getY())
+            {
+               if(inputs[2] == true)
+               {
+                  b = f1.new AirDown();
+               }else if(inputs[1] == true || inputs[3] == true)
+               {
+                  b = f1.new AirDirection();                  
+               }else
+               {
+                  b = f1.new AirNeutral();
+               }
+            }else
+            {  
+               if(inputs[2] == true)
+               {
+                  b = f1.new BasicUp();
+               }else if(inputs[1] == true || inputs[3] == true)
+               {
+                  b = f1.new BasicDirection();
+               }else
+               {
+                  b = f1.new BasicNeutral();
+               }
+            }
+
+            f1.setAttack(b);
+            f1.setMvmtVel(0,0);
+            f1.setAttacking(1);
+         }
+      }
+   }
+
+   public void incrementAttack(Fighter f1, Fighter f2)
+   {
+      if(f1.getAttacking() == 1)
+      {
+         if(f1.getAttackT() == 10)
+         {
+            int[] i = new int[4];
+            i = attackHitBox(f1);
+            
+            if (i[0] <= f2.getPos()[0] + f2.getSize() && i[0] + i[2] >= f2.getPos()[0] && i[1] <= f2.getPos()[1] + f2.getSize() && i[1] + i[3] >= f2.getPos()[1])
+            {
+               f2.setHealth(f2.getHealth() - f1.getAttack().getDamage());
+               f2.setKnockBackVel(f1.getAttack().getKnockBack()[0],f1.getAttack().getKnockBack()[1]);
+            }
+            f1.setAttackT(0);
+            f1.setAttacking(2);
+         }else
+         {
+            f1.setAttackT(f1.getAttackT() + 1);
+         }
+      }
+
+      if(f1.getAttacking() == 2)
+      {
+         if(f1.getAttackT() == 25)
+         {
+            f1.setAttackT(0);
+            f1.setAttacking(0);
+         }
+         else
+         {
+            f1.setAttackT(f1.getAttackT() + 1);
+         }
+      }
+   }
+
    public void draw(Fighter[] fs)
    {
       this.dFs = fs;       

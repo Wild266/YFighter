@@ -5,10 +5,10 @@ public class Fighter
    int size;
    double[] mvntVel = new double[2];
    double[] knockBackVel = new double[2];
-   boolean jumping = false;
    boolean right = false;
    int attacking = 0;
    int attackT = 0;
+   Fighter.Attack attack;
    
 
    Fighter(double newHealth, double newX, double newY, int newSize)
@@ -20,6 +20,16 @@ public class Fighter
       System.out.println("made new fighter with " + this.health + " health");
    }
    
+   public void setAttack(Attack a)
+   {
+      this.attack = a;
+   }
+
+   public Attack getAttack()
+   {
+      return this.attack;
+   }
+
    public double getHealth()
    {
       return this.health;
@@ -66,16 +76,6 @@ public class Fighter
       this.pos[1] = y;
    }
 
-   public void setJumping(boolean j)
-   {
-      this.jumping = j;
-   }
-
-   public boolean getJumping()
-   {
-      return this.jumping;
-   }
-   
    public void setAttacking(int a)
    {
       this.attacking = a;
@@ -115,17 +115,20 @@ public class Fighter
 
    public abstract class Attack
    {
-      double[] pos;
-      double[] size;
-      double damage;
-      double[] knockback;
       
-      public double[] getknockback()
+      double[] pos = new double[2];
+      int[] size = new int[2];
+      double damage;
+      double[] knockback = new double[2]; 
+      int time;
+      
+      
+      public double[] getKnockBack()
       {
          return this.knockback;
       }
       
-      public double getdamage()
+      public double getDamage()
       {
          return this.damage;
       }
@@ -134,114 +137,98 @@ public class Fighter
          return this.pos;
       }
       
-      public double[] getSize()
+      public int[] getSize()
       {
          return this.size;
       }
+
+      public int getTime()
+      {
+         return this.time;
+      }
+
+      public void setKnockBack(double k1, double k2)
+      {
+         knockback[0] = k1;
+         knockback[1] = k2;
+      }
+      
+      public void setDamage(double d)
+      {
+         damage = d;
+      }
+      public void setPos(double x, double y)
+      {
+         pos[0] = x;
+         pos[1] = y;
+      }
+      
+      public void setSize(int s1, int s2)
+      {
+         size[0] = s1;
+         size[1] = s2;
+      }
+
+      public void setTime(int t)
+      {
+         time = t;
+      }
       
    }
+
+
    public class AirDirection extends Attack
    {
-      double[] pos = new double[2];
-      double[] size = new double[2];
-      double damage;
-      double[] knockback = new double[2]; 
-      
-      AirDirection(double[] f){
-         this.pos[0] = f[0] + 0;
-         this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
-         this.size[1] = 10;
-         this.damage = 50;
-         this.knockback[0] = 20;
-         this.knockback[1] = -5; 
+      AirDirection(){
+         setPos(10,20);
+         setSize(100,10);
+         setDamage(50);
+         setKnockBack(20,-5);
       } 
    }
    public class AirDown extends Attack
    {
-      double[] pos = new double[2];
-      double[] size = new double[2];
-      double damage;
-      double[] knockback = new double[2];
-      
-      AirDown(double[] f){
-         this.pos[0] = f[0] + 0;
-         this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
-         this.size[1] = 10;
-         this.damage = 50;
-         this.knockback[0] = 20;
-         this.knockback[1] = -5; 
+      AirDown(){
+         setPos(10,10);
+         setSize(30,120);
+         setDamage(50);
+         setKnockBack(20,-5);
       }   
    }
    public class AirNeutral extends Attack
    {
-      double[] pos = new double[2];
-      double[] size = new double[2];
-      double damage;
-      double[] knockback = new double[2]; 
-      
-      AirNeutral(double[] f){
-         this.pos[0] = f[0] + 0;
-         this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
-         this.size[1] = 10;
-         this.damage = 50;
-         this.knockback[0] = 20;
-         this.knockback[1] = -5; 
+      AirNeutral(){
+         setPos(20,20);
+         setSize(60,50);
+         setDamage(50);
+         setKnockBack(20,-5); 
       } 
    }
    public class BasicDirection extends Attack
    {
-      double[] pos = new double[2];
-      double[] size = new double[2];
-      double damage;
-      double[] knockback = new double[2]; 
-      
-      BasicDirection(double[] f){
-         this.pos[0] = f[0] + 0;
-         this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
-         this.size[1] = 10;
-         this.damage = 50;
-         this.knockback[0] = 20;
-         this.knockback[1] = -5; 
+      BasicDirection(){
+         setPos(10,10);
+         setSize(200,10);
+         setDamage(50);
+         setKnockBack(20,-5);
       }  
    }
    public class BasicNeutral extends Attack
    {      
-      double[] pos = new double[2];
-      double[] size = new double[2];
-      double damage;
-      double[] knockback = new double[2];
-            
-      BasicNeutral(double[] f){
-         this.pos[0] = f[0] + 0;
-         this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
-         this.size[1] = 10;
-         this.damage = 50;
-         this.knockback[0] = 20;
-         this.knockback[1] = -5; 
+      BasicNeutral(){
+         setPos(10,10);
+         setSize(70,30);
+         setDamage(150);
+         setKnockBack(20,-30);
       } 
    }
    public class BasicUp extends Attack
    {
-      double[] pos = new double[2];
-      double[] size = new double[2];
-      double damage;
-      double[] knockback = new double[2];
-      
-      BasicUp(double[] f){
-         this.pos[0] = f[0] + 0;
-         this.pos[1] = f[1] + 0;
-         this.size[0] = 10;
-         this.size[1] = 10;
-         this.damage = 50;
-         this.knockback[0] = 20;
-         this.knockback[1] = -5; 
+      BasicUp(){
+         setPos(0,0);
+         setSize(100,10);
+         setDamage(50);
+         setKnockBack(20,-5);
       } 
-        
    }
-   
 }
