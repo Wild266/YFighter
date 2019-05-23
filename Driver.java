@@ -2,8 +2,6 @@ import javax.swing.*;
 
 public class Driver
 {
-    Display disp;
-
     public static void main(String[] args)
     {   
         JFrame frame = new JFrame("Yeet Fighter");
@@ -19,8 +17,12 @@ public class Driver
         Fighter f2;
         Platform plat = new Platform(550);
         Fighter fighters[] = new Fighter[2];
-        while(disp.getMode() == 0){}
-        
+        int m = 0;
+        while(disp.getMode() == 0)
+        {
+
+        }
+        System.out.println("dang");
         fighters = disp.loadGame(plat);
 
         int fps = 60;
@@ -28,8 +30,6 @@ public class Driver
         double delta = 0;
         long now;
         long lastTime = System.nanoTime();
-        long timer = 0;
-        int ticks = 0;
 
 
 
@@ -37,21 +37,13 @@ public class Driver
         {
             now = System.nanoTime();
             delta += (now - lastTime) / timePerTick;
-            timer += now - lastTime;
             lastTime = now;
 
             if(delta >= 1){
                 boolean ins[][] = disp.getInputs();
                 fighters = disp.update(fighters,plat,ins);
                 disp.draw(fighters);
-                ticks++;
                 delta--;
-            }
-
-            if(timer >= 1000000000){
-//               System.out.println(ticks);
-                ticks = 0;
-                timer = 0;
             }
         }
         disp.endGame(fighters);
