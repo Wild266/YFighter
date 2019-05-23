@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class Display extends JPanel implements KeyListener
 {
    private Image backgroundImage;
-   private int mode = 0; 
+   private volatile int mode = 0; 
 
    private int yMin = 0;
    
@@ -49,9 +49,14 @@ public class Display extends JPanel implements KeyListener
       g.drawImage(backgroundImage, 0, 0, null);
       if(mode == 0)
       {
-         g.setColor(Color.white);
-         g.setFont(new Font("serif", Font.BOLD, 30));
-         g.drawString("Yeet Fighter",100,100);
+         g.setColor(Color.magenta);
+         g.setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 50));
+         g.drawString("Yeet Fighter",37,300);
+         
+         
+         g.setColor(Color.gray);
+         g.setFont(new Font("Impact", Font.ITALIC, 20));
+         g.drawString("Press any key to start",700,550);
       }
       else if(mode == 1)
       {
@@ -70,7 +75,7 @@ public class Display extends JPanel implements KeyListener
             g.setColor(Color.red);
             
             Fighter.BasicNeutral b = dFs[0].new BasicNeutral(dFs[0].getPos());
-            g.fillRect(b.getPos()[0],b.getPos()[1],b.getSize()[0],b.get)
+//             g.fillRect(b.getPos()[0],b.getPos()[1],b.getSize()[0],b.get);
          }
       
       }else if(mode == 2)
