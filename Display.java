@@ -75,7 +75,7 @@ public class Display extends JPanel implements KeyListener
             g.setColor(Color.red);
             
             Fighter.BasicNeutral b = dFs[0].new BasicNeutral(dFs[0].getPos());
-//             g.fillRect((int)b.getPos()[0],(int)b.getPos()[1],(int)b.getSize()[0],(int)b.getSize()[1]);
+//             g.fillRect(b.getPos()[0],b.getPos()[1],b.getSize()[0],b.get);
          }
       
       }else if(mode == 2)
