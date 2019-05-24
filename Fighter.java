@@ -16,9 +16,7 @@ public class Fighter
       this.health = newHealth;
       this.pos[0] = newX;
       this.pos[1] = newY;
-      this.size = newSize;
-      System.out.println("made new fighter with " + this.health + " health");
-   }
+      this.size = newSize;   }
    
    public void setAttack(Attack a)
    {
@@ -180,10 +178,11 @@ public class Fighter
    public class AirDirection extends Attack
    {
       AirDirection(){
-         setPos(10,20);
-         setSize(100,10);
+         setPos(10,35);
+         setSize(120,10);
          setDamage(50);
-         setKnockBack(20,-5);
+         setKnockBack(120,-10);
+         setTime(30);
       } 
    }
    public class AirDown extends Attack
@@ -191,26 +190,29 @@ public class Fighter
       AirDown(){
          setPos(10,10);
          setSize(30,120);
-         setDamage(50);
-         setKnockBack(20,-5);
+         setDamage(70);
+         setKnockBack(0,-80);
+         setTime(40);
       }   
    }
    public class AirNeutral extends Attack
    {
       AirNeutral(){
          setPos(20,20);
-         setSize(60,50);
-         setDamage(50);
-         setKnockBack(20,-5); 
+         setSize(50,50);
+         setDamage(100);
+         setKnockBack(40,-10); 
+         setTime(25);
       } 
    }
    public class BasicDirection extends Attack
    {
       BasicDirection(){
          setPos(10,10);
-         setSize(200,10);
-         setDamage(50);
-         setKnockBack(20,-5);
+         setSize(150,10);
+         setDamage(40);
+         setKnockBack(40,-10);
+         setTime(20);
       }  
    }
    public class BasicNeutral extends Attack
@@ -219,16 +221,18 @@ public class Fighter
          setPos(10,10);
          setSize(70,30);
          setDamage(150);
-         setKnockBack(20,-30);
+         setKnockBack(60,-60);
+         setTime(30);
       } 
    }
    public class BasicUp extends Attack
    {
       BasicUp(){
-         setPos(0,0);
-         setSize(100,10);
-         setDamage(50);
-         setKnockBack(20,-5);
+         setPos(20,-10);
+         setSize(10,20);
+         setDamage(200);
+         setKnockBack(0,-200);
+         setTime(50);
       } 
    }
 }
