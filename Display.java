@@ -19,7 +19,7 @@ public class Display extends JPanel implements KeyListener
    private double j  = 20;
    private double mX = 10;
    private double g  = 1.5;
-   private double f = 1.15;
+   private double f = 1.3;
    private double kf = 1.09;
 
    private Fighter[] dFs = new Fighter[2];
@@ -91,11 +91,10 @@ public class Display extends JPanel implements KeyListener
          g.fillRect(480,10,(int)((dFs[1].getHealth()/totalH) * 465),10);
          
          g.fillRect((int)dFs[0].getPos()[0],(int)dFs[0].getPos()[1],dFs[0].getSize(),dFs[0].getSize());
-         g.setColor(Color.cyan);
-         g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
-         
+
          if(dFs[0].getAttacking() == 1){
-            g.setColor(Color.green);
+            g.setColor(Color.red);
+            //g.setColor(Color.green);
             
             int[] i = new int[4];
             i = attackHitBox(dFs[0]);
@@ -103,15 +102,19 @@ public class Display extends JPanel implements KeyListener
             g.fillRect(i[0],i[1],i[2],i[3]);
          }
 
+         g.setColor(Color.cyan);
+         g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
+
          if(dFs[1].getAttacking() == 1){
-            g.setColor(Color.green);
+            g.setColor(Color.cyan);
+            //g.setColor(Color.green);
             
             int[] i = new int[4];
             i = attackHitBox(dFs[1]);
 
             g.fillRect(i[0],i[1],i[2],i[3]);
          }
-      
+
       }else if(mode == 2)
       {
       
@@ -259,10 +262,9 @@ public class Display extends JPanel implements KeyListener
    {
       yMin = p.getY();
       Fighter fs[] = new Fighter[2];
-      System.out.println("loading Game");
       int s = 50;
-      fs[0] = new Fighter(totalH,10,10,s);
-      fs[1] = new Fighter(totalH,1,1,s);
+      fs[0] = new Fighter(totalH,0,10,s);
+      fs[1] = new Fighter(totalH,1000,10,s);
       mode = 1;
       return fs;
    }
@@ -272,11 +274,13 @@ public class Display extends JPanel implements KeyListener
       return buttons;
    }
 
-  
-
    public Fighter[] update(Fighter[] fs, Platform plat, boolean[][] inputs)
    {
-      
+      setAttacking(fs[0],plat,inputs[0]);
+      setAttacking(fs[1],plat,inputs[1]);
+
+      incrementAttack(fs[0],fs[1]);
+      incrementAttack(fs[1],fs[0]);
       
       if(fs[0].getAttacking() != 1)
       {
@@ -298,28 +302,7 @@ public class Display extends JPanel implements KeyListener
 
       bringBack(fs[0]);
       bringBack(fs[1]);
-
-
-      setAttacking(fs[0],plat,inputs[0]);
-      setAttacking(fs[1],plat,inputs[1]);
-
-      incrementAttack(fs[0],fs[1]);
-      incrementAttack(fs[1],fs[0]);
       
-
-      
-      
-      
-      /*
-      System.out.println("moving fighters");
-      System.out.println("putting fighters above platform");
-      System.out.println("all players are above " + plat.getY());
-      System.out.println("incrementing buffers");
-      System.out.println("setting players to attacking, blocking, or neither");
-      System.out.println("checking player hitboxes with attack hitboxes");
-      System.out.println("setting new player healths");
-      //fs[0].setHealth(fs[0]);
-      */
       return fs; 
    }
 
@@ -374,14 +357,14 @@ public class Display extends JPanel implements KeyListener
       {
          f1.setPos(950 - f1.getSize(),f1.getPos()[1]);
          f1.setMvmtVel(0,f1.getMvmtVel()[1]);
-         f1.setKnockBackVel( -(f1.getKnockBackVel()[1]),f1.getKnockBackVel()[1]);
+         f1.setKnockBackVel(0,f1.getKnockBackVel()[1]);
          
       }
       if(f1.getPos()[0] < 0)
       {
          f1.setPos(0,f1.getPos()[1]);
          f1.setMvmtVel(0,f1.getMvmtVel()[1]);
-         f1.setKnockBackVel(-f1.getKnockBackVel()[1],f1.getKnockBackVel()[1]);
+         f1.setKnockBackVel(0,f1.getKnockBackVel()[1]);
          
       }
    }
@@ -421,7 +404,6 @@ public class Display extends JPanel implements KeyListener
             }
 
             f1.setAttack(b);
-            f1.setMvmtVel(0,0);
             f1.setAttacking(1);
          }
       }
@@ -431,7 +413,7 @@ public class Display extends JPanel implements KeyListener
    {
       if(f1.getAttacking() == 1)
       {
-         if(f1.getAttackT() == 10)
+         if(f1.getAttackT() == 5)
          {
             int[] i = new int[4];
             i = attackHitBox(f1);
@@ -439,7 +421,12 @@ public class Display extends JPanel implements KeyListener
             if (i[0] <= f2.getPos()[0] + f2.getSize() && i[0] + i[2] >= f2.getPos()[0] && i[1] <= f2.getPos()[1] + f2.getSize() && i[1] + i[3] >= f2.getPos()[1])
             {
                f2.setHealth(f2.getHealth() - f1.getAttack().getDamage());
-               f2.setKnockBackVel(f1.getAttack().getKnockBack()[0],f1.getAttack().getKnockBack()[1]);
+               if(f1.getRight() == true){
+                  f2.setKnockBackVel(f1.getAttack().getKnockBack()[0],f1.getAttack().getKnockBack()[1]);
+               }else
+               {
+                  f2.setKnockBackVel(-f1.getAttack().getKnockBack()[0],f1.getAttack().getKnockBack()[1]);
+               }
             }
             f1.setAttackT(0);
             f1.setAttacking(2);
@@ -451,7 +438,7 @@ public class Display extends JPanel implements KeyListener
 
       if(f1.getAttacking() == 2)
       {
-         if(f1.getAttackT() == 25)
+         if(f1.getAttackT() == f1.getAttack().getTime())
          {
             f1.setAttackT(0);
             f1.setAttacking(0);

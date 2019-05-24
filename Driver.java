@@ -22,7 +22,6 @@ public class Driver
         {
 
         }
-        System.out.println("dang");
         fighters = disp.loadGame(plat);
 
         int fps = 60;
