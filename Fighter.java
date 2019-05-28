@@ -8,7 +8,8 @@ public class Fighter
    boolean right = false;
    int attacking = 0;
    int attackT = 0;
-   boolean blocking;
+   int blocking = 0;
+   int blockT = 0;
    Fighter.Attack attack;
    
 
@@ -84,14 +85,17 @@ public class Fighter
    {
       return this.attacking;
    }
-   public boolean getBlocking()
+
+   public void setBlocking(int a)
+   {
+      this.blocking = a;
+   }
+   
+   public int getBlocking()
    {
       return this.blocking;
    }
-   public void setBlocking(boolean r)
-   {
-      this.blocking = r;
-   }
+   
    public void setRight(boolean r)
    {
       this.right = r;
@@ -112,6 +116,16 @@ public class Fighter
       return this.attackT;
    }
 
+   public void setBlockT(int a)
+   {
+      this.blockT = a;
+   }
+   
+   public int getBlockT()
+   {
+      return this.blockT;
+   }
+
 
 
 
@@ -121,6 +135,7 @@ public class Fighter
 
    public abstract class Attack
    {
+      
       double[] pos = new double[2];
       int[] size = new int[2];
       double damage;
@@ -130,7 +145,6 @@ public class Fighter
       
       public double[] getKnockBack()
       {
-    	  
          return this.knockback;
       }
       
@@ -190,7 +204,7 @@ public class Fighter
          setSize(120,10);
          setDamage(50);
          setKnockBack(120,-10);
-         setTime(30);
+         setTime(20);
       } 
    }
    public class AirDown extends Attack
@@ -208,7 +222,7 @@ public class Fighter
       AirNeutral(){
          setPos(20,20);
          setSize(50,50);
-         setDamage(100);
+         setDamage(110);
          setKnockBack(40,-10); 
          setTime(25);
       } 
@@ -216,58 +230,31 @@ public class Fighter
    public class BasicDirection extends Attack
    {
       BasicDirection(){
-    	  
-    	  if (blocking) {
-    		  setPos(10,10);
-    	         setSize(150,10);
-    	         setDamage(10);
-    	         setKnockBack(15,-10);
-    	         setTime(20);
-    	  } else {
-    		  setPos(10,10);
-    	         setSize(150,10);
-    	         setDamage(40);
-    	         setKnockBack(40,-10);
-    	         setTime(20);
-    	  }
+         setPos(10,10);
+         setSize(150,10);
+         setDamage(40);
+         setKnockBack(40,-10);
+         setTime(20);
       }  
    }
    public class BasicNeutral extends Attack
    {      
       BasicNeutral(){
-    	  if (blocking) {
-    	         setPos(10,10);
-    	         setSize(70,30);
-    	         setDamage(50);
-    	         setKnockBack(30,-30);
-    	         setTime(30);
-    	  } else {
-    	         setPos(10,10);
-    	         setSize(70,30);
-    	         setDamage(150);
-    	         setKnockBack(60,-60);
-    	         setTime(30);
-    	  }
-
+         setPos(10,10);
+         setSize(70,30);
+         setDamage(150);
+         setKnockBack(60,-60);
+         setTime(30);
       } 
    }
    public class BasicUp extends Attack
    {
       BasicUp(){
-    	  if (blocking) {
-    	         setPos(20,-10);
-    	         setSize(10,20);
-    	         setDamage(50);
-    	         setKnockBack(0,-70);
-    	         setTime(50);
-    	  } else {
-    	         setPos(20,-10);
-    	         setSize(10,20);
-    	         setDamage(200);
-    	         setKnockBack(0,-200);
-    	         setTime(50);
-    	  }
-
+         setPos(20,-10);
+         setSize(10,10);
+         setDamage(200);
+         setKnockBack(4,-200);
+         setTime(50);
       } 
    }
 }
