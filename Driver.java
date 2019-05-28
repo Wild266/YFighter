@@ -8,7 +8,7 @@ public class Driver
 {
     public static void main(String[] args)
     {   
-        playContinuous("Spectre.wav");
+        playContinuous("Spectre.mp3");
         JFrame frame = new JFrame("Yeet Fighter");
         frame.setSize(965, 640);
         frame.setLocation(200,100);
