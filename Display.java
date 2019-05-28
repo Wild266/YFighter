@@ -18,7 +18,6 @@ public class Display extends JPanel implements KeyListener
    
    private double s  = 2;
    private double j  = 20;
-//   private double mX = 10;
    private double g  = 1.5;
    private double f = 1.3;
    private double kf = 1.09;
@@ -61,6 +60,7 @@ public class Display extends JPanel implements KeyListener
       i[1] = (int)(b.getPos()[1]+ f1.getPos()[1]);
       i[2] = b.getSize()[0];
       i[3] = b.getSize()[1];
+
       return i;
    }
 
@@ -83,6 +83,7 @@ public class Display extends JPanel implements KeyListener
       }
       else if(mode == 1)
       {
+
          g.setColor(Color.white);
          g.fillRect(0,yMin, 1000, 10);
          Color healthbar1 = new Color(255-(int)((dFs[0].getHealth()/totalH) * 255),(int)((dFs[0].getHealth()/totalH) * 255),0);//(int)((dFs[0].getHealth()/totalH) * 255)/2 );
@@ -93,35 +94,54 @@ public class Display extends JPanel implements KeyListener
          g.fillRect(480+(465-(int)((dFs[1].getHealth()/totalH) * 465)),10,(int)((dFs[1].getHealth()/totalH) * 465),10);
          
          g.setColor(Color.red);
+         
+   
+         if(dFs[0].getAttacking() == 2)
+         {
+            g.setColor(new Color(150, 0, 0));
+         }else
+         {
+            g.setColor(new Color(255, 0, 0));
+         }
+
          g.fillRect((int)dFs[0].getPos()[0],(int)dFs[0].getPos()[1],dFs[0].getSize(),dFs[0].getSize());
 
-         if (dFs[0].getBlocking()) {
-        	 g.setColor(Color.white);
-        	 g.fillRect((int)dFs[1].getPos()[0]+10, (int)dFs[1].getPos()[1]+10, 30, 30);
-         }  
-         if(dFs[0].getAttacking() == 1){
+         if(dFs[0].getAttacking() == 1)
+         {
             g.setColor(Color.red);
-            //g.setColor(Color.green);
             
             int[] i = new int[4];
             i = attackHitBox(dFs[0]);
 
             g.fillRect(i[0],i[1],i[2],i[3]);
          }
-         if (dFs[1].getBlocking()) {
-        	 g.setColor(Color.white);
-        	 g.fillRect((int)dFs[0].getPos()[0]+10, (int)dFs[0].getPos()[1]+10, 30, 30);
-         }  
-         g.setColor(Color.cyan);
-         g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
-         if (dFs[0].getBlocking()) {
-        	 g.setColor(Color.white);
-        	 g.fillRect((int)dFs[1].getPos()[0]+10, (int)dFs[1].getPos()[1]+10, 30, 30);
+
+         if(dFs[0].getBlocking() != 0)
+         {
+            if(dFs[0].getBlocking() == 1)
+            {
+               g.setColor(new Color(255, 255, 255));
+            }else
+            {
+               g.setColor(new Color(150, 150, 150));
+            }
+            g.fillRect((int) (dFs[0].getPos()[0] + 10) ,(int) (dFs[0].getPos()[1] + 10), dFs[0].getSize() -20 , dFs[0].getSize() - 20);
          }
-         
-         if(dFs[1].getAttacking() == 1){
-            g.setColor(Color.cyan);
-            //g.setColor(Color.green);
+
+
+         if(dFs[1].getAttacking() == 2)
+         {
+            g.setColor(new Color(0, 150, 150));
+         }else
+         {
+            g.setColor(new Color(0, 255, 255));
+         }
+
+         g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
+
+         if(dFs[1].getAttacking() == 1)
+         {
+            g.setColor(new Color(0, 255, 255));
             
             int[] i = new int[4];
             i = attackHitBox(dFs[1]);
@@ -129,9 +149,24 @@ public class Display extends JPanel implements KeyListener
             g.fillRect(i[0],i[1],i[2],i[3]);
          }
 
+         if(dFs[1].getBlocking() != 0)
+         {
+            if(dFs[1].getBlocking() == 1)
+            {
+               g.setColor(new Color(255, 255, 255));
+            }else
+            {
+               g.setColor(new Color(150, 150, 150));
+            }
+            g.fillRect((int) (dFs[1].getPos()[0] + 10) ,(int) (dFs[1].getPos()[1] + 10), dFs[1].getSize() -20 , dFs[1].getSize() - 20);
+         }
+
+
+
       }else if(mode == 2)
       {
-    	  g.setFont(new Font("Agency FB", Font.BOLD, 30));
+      
+         g.setFont(new Font("Agency FB", Font.BOLD, 30));
           g.setColor(Color.white);
           g.drawString("Developed By Joseph Rother & Akshan Sameullah",470,570);
          if(dFs[0].getHealth() > 0)
@@ -164,7 +199,6 @@ public class Display extends JPanel implements KeyListener
             g2.setFont(new Font("Agency FB", Font.BOLD, 170));
             g2.drawString("Blue Wins",250,130);
          }
-         
       }
       
       g.dispose();
@@ -180,113 +214,109 @@ public class Display extends JPanel implements KeyListener
    {
       if (mode == 0){
          mode = 1;
-      }else 
-      if(mode == 1)
+      }
+
+      if(e.getKeyChar() == 'w')
       {
-         if(e.getKeyChar() == 'w')
-         {
-            buttons[0][0] = true;
-         }
-         if(e.getKeyChar() == 'a')
-         {
-            buttons[0][1] = true;
-         }
-         if(e.getKeyChar() == 's')
-         {
-            buttons[0][2] = true;
-         }
-         if(e.getKeyChar() == 'd')
-         {
-            buttons[0][3] = true;
-         }
-         if(e.getKeyChar() == 'f')
-         {
-            buttons[0][4] = true;
-         }
-         if(e.getKeyChar() == '/')
-         {
-            buttons[0][5] = true;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_UP)
-         {
-            buttons[1][0] = true;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_LEFT)
-         {
-            buttons[1][1] = true;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_DOWN)
-         {
-            buttons[1][2] = true;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-         {
-            buttons[1][3] = true;
-         }
-         if(e.getKeyChar() == '.')
-         {
-            buttons[1][4] = true;
-         }
-         if(e.getKeyChar() == 'g')
-         {
-            buttons[1][5] = true;
-         }
+         buttons[0][0] = true;
+      }
+      if(e.getKeyChar() == 'a')
+      {
+         buttons[0][1] = true;
+      }
+      if(e.getKeyChar() == 's')
+      {
+         buttons[0][2] = true;
+      }
+      if(e.getKeyChar() == 'd')
+      {
+         buttons[0][3] = true;
+      }
+      if(e.getKeyChar() == 'f')
+      {
+         buttons[0][4] = true;
+      }
+      if(e.getKeyChar() == 'g')
+      {
+         buttons[0][5] = true;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_UP)
+      {
+         buttons[1][0] = true;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_LEFT)
+      {
+         buttons[1][1] = true;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_DOWN)
+      {
+         buttons[1][2] = true;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+      {
+         buttons[1][3] = true;
+      }
+      if(e.getKeyChar() == '.')
+      {
+         buttons[1][4] = true;
+      }
+      if(e.getKeyChar() == '/')
+      {
+         buttons[1][5] = true;
       }
    }
 
    @Override
    public void keyReleased(KeyEvent e)
    {
-      if(mode == 1)
+      
+      if(e.getKeyChar() == 'w')
       {
-         if(e.getKeyChar() == 'w')
-         {
-            buttons[0][0] = false;
-         }
-         if(e.getKeyChar() == 'a')
-         {
-            buttons[0][1] = false;
-         }
-         if(e.getKeyChar() == 's')
-         {
-            buttons[0][2] = false;
-         }
-         if(e.getKeyChar() == 'd')
-         {
-            buttons[0][3] = false;
-         }
-         if(e.getKeyChar() == 'f')
-         {
-            buttons[0][4] = false;
-         }
-         if(e.getKeyChar() == '/')
-         {
-            buttons[0][5] = false;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_UP)
-         {
-            buttons[1][0] = false;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_LEFT)
-         {
-            buttons[1][1] = false;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_DOWN)
-         {
-            buttons[1][2] = false;
-         }
-         if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-         {
-            buttons[1][3] = false;
-         }
-         if(e.getKeyChar() == '.')
-         {
-            buttons[1][4] = false;
-         }
-         if(e.getKeyChar() == 'g')
-         {
-            buttons[1][5] = false;
-         }
+         buttons[0][0] = false;
+      }
+      if(e.getKeyChar() == 'a')
+      {
+         buttons[0][1] = false;
+      }
+      if(e.getKeyChar() == 's')
+      {
+         buttons[0][2] = false;
+      }
+      if(e.getKeyChar() == 'd')
+      {
+         buttons[0][3] = false;
+      }
+      if(e.getKeyChar() == 'f')
+      {
+         buttons[0][4] = false;
+      }
+      if(e.getKeyChar() == 'g')
+      {
+         buttons[0][5] = false;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_UP)
+      {
+         buttons[1][0] = false;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_LEFT)
+      {
+         buttons[1][1] = false;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_DOWN)
+      {
+         buttons[1][2] = false;
+      }
+      if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+      {
+         buttons[1][3] = false;
+      }
+      if(e.getKeyChar() == '.')
+      {
+         buttons[1][4] = false;
+      }
+      if(e.getKeyChar() == '/')
+      {
+         buttons[1][5] = false;
       }
    }
 
@@ -308,6 +338,12 @@ public class Display extends JPanel implements KeyListener
 
    public Fighter[] update(Fighter[] fs, Platform plat, boolean[][] inputs)
    {
+      setBlocking(fs[0],inputs[0]);
+      setBlocking(fs[1],inputs[1]);
+
+      incrementBlock(fs[0]);
+      incrementBlock(fs[1]);
+
       setAttacking(fs[0],plat,inputs[0]);
       setAttacking(fs[1],plat,inputs[1]);
 
@@ -401,11 +437,52 @@ public class Display extends JPanel implements KeyListener
       }
    }
 
+   public void setBlocking (Fighter f1, boolean[] inputs)
+   {
+      if (inputs[5] == true)
+      {
+         if(f1.getBlocking() == 0)
+         {
+            System.out.println("weewoo");
+            f1.setBlocking(1);
+         }
+      }
+   }
+
+   public void incrementBlock(Fighter f1)
+   {
+      if(f1.getBlocking() == 1)
+      {
+         if(f1.getBlockT() == 20)
+         {
+            
+            f1.setBlockT(0);
+            System.out.println("wombo");
+            f1.setBlocking(2);
+         }else
+         {
+            f1.setBlockT(f1.getBlockT() + 1);
+         }
+      }
+
+      if(f1.getBlocking() == 2)
+      {
+         if(f1.getBlockT() == 240)
+         {
+            f1.setBlockT(0);
+            System.out.println("welmpo");
+            f1.setBlocking(0);
+         }
+         else
+         {
+            f1.setBlockT(f1.getBlockT() + 1);
+         }
+      }
+   }
+
    public void setAttacking (Fighter f1 , Platform plat, boolean[] inputs)
    {
-
-    	  f1.setBlocking(inputs[5]);
-    	  if (inputs[4] == true)
+      if (inputs[4] == true && f1.getBlocking() != 1)
       {
          if(f1.getAttacking() == 0)
          {
@@ -441,26 +518,20 @@ public class Display extends JPanel implements KeyListener
             f1.setAttacking(1);
          }
       }
-      
    }
 
    public void incrementAttack(Fighter f1, Fighter f2)
    {
-     
-	   if(f1.getAttacking() == 1)
+      if(f1.getAttacking() == 1)
       {
          if(f1.getAttackT() == 5)
          {
             int[] i = new int[4];
             i = attackHitBox(f1);
             
-            if ( i[0] <= f2.getPos()[0] + f2.getSize() && i[0] + i[2] >= f2.getPos()[0] && i[1] <= f2.getPos()[1] + f2.getSize() && i[1] + i[3] >= f2.getPos()[1])
+            if (i[0] <= f2.getPos()[0] + f2.getSize() && i[0] + i[2] >= f2.getPos()[0] && i[1] <= f2.getPos()[1] + f2.getSize() && i[1] + i[3] >= f2.getPos()[1] && f2.getBlocking() != 1)
             {
-//               if (!f1.getBlocking()) {
-            	f2.setHealth(f2.getHealth() - f1.getAttack().getDamage());
-//               } else {
-//            	   f2.setHealth(f2.getHealth());
-//               }
+               f2.setHealth(f2.getHealth() - f1.getAttack().getDamage());
                if(f1.getRight() == true){
                   f2.setKnockBackVel(f1.getAttack().getKnockBack()[0],f1.getAttack().getKnockBack()[1]);
                }else
