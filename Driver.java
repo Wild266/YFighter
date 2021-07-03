@@ -1,9 +1,15 @@
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-
+import java.io.*;
+import javax.sound.sampled.*;
+import javax.sound.sampled.DataLine.Info;
 public class Driver
 {
     public static void main(String[] args)
     {   
+        playContinuous("Spectre.wav");
         JFrame frame = new JFrame("Yeet Fighter");
         frame.setSize(965, 640);
         frame.setLocation(200,100);
@@ -19,9 +25,7 @@ public class Driver
         Fighter fighters[] = new Fighter[2];
         int m = 0;
         while(disp.getMode() == 0)
-        {
-
-        }
+        {}
         fighters = disp.loadGame(plat);
 
         int fps = 60;
@@ -47,4 +51,52 @@ public class Driver
         }
         disp.endGame(fighters);
     }
+//        public static void playMusic(String filename){
+//       InputStream music;
+//       try{
+//     	  System.out.println("Playing Audio Once");
+//          music = new FileInputStream(new File(filename));
+//          AudioStream aud = new AudioStream(music);
+//          AudioPlayer.player.start(aud);
+//       }
+//       catch(Exception e){
+//     	  System.out.println("Playing Music Once");
+//       }
+//    }
+//    public static void playMusicInALoop(String filename){
+// 	      try{
+// 	    	  AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(filename));
+// 	          Clip clip = AudioSystem.getClip();
+// 	          clip.open(inputStream);
+// 	          clip.loop(Clip.LOOP_CONTINUOUSLY);
+// 	      }
+// 	      catch(Exception e){
+// 	    	  System.out.println(e);
+// 	         playMusic(filename);
+// 	      }
+// 	}
+   public static void playContinuous(String filename){
+	      try{
+	    	  AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(filename));
+           DataLine.Info lineInfo = new DataLine.Info(SourceDataLine.class, inputStream.getFormat());
+           SourceDataLine clip = (SourceDataLine)AudioSystem.getLine(lineInfo);
+           clip.open(inputStream.getFormat());
+           clip.start();
+           final int BUFFERSIZE = 1024;
+           byte[] buffer = new byte[BUFFERSIZE];
+           int bytesRead = -1;
+           bytesRead = inputStream.read(buffer);
+           while (bytesRead != 1){
+            clip.write(buffer, 0 ,bytesRead);
+            bytesRead = inputStream.read(buffer);
+           } 
+           clip.drain();
+           clip.close();
+           inputStream.close();
+	      }
+	      catch(Exception e){
+	    	  System.out.println(e);
+// 	         playMusic(filename);
+	      }
+	}
 }

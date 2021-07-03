@@ -8,6 +8,8 @@ public class Fighter
    boolean right = false;
    int attacking = 0;
    int attackT = 0;
+   int blocking = 0;
+   int blockT = 0;
    Fighter.Attack attack;
    
 
@@ -83,6 +85,16 @@ public class Fighter
    {
       return this.attacking;
    }
+
+   public void setBlocking(int a)
+   {
+      this.blocking = a;
+   }
+   
+   public int getBlocking()
+   {
+      return this.blocking;
+   }
    
    public void setRight(boolean r)
    {
@@ -102,6 +114,16 @@ public class Fighter
    public int getAttackT()
    {
       return this.attackT;
+   }
+
+   public void setBlockT(int a)
+   {
+      this.blockT = a;
+   }
+   
+   public int getBlockT()
+   {
+      return this.blockT;
    }
 
 
@@ -182,7 +204,7 @@ public class Fighter
          setSize(120,10);
          setDamage(50);
          setKnockBack(120,-10);
-         setTime(30);
+         setTime(20);
       } 
    }
    public class AirDown extends Attack
@@ -200,7 +222,7 @@ public class Fighter
       AirNeutral(){
          setPos(20,20);
          setSize(50,50);
-         setDamage(100);
+         setDamage(110);
          setKnockBack(40,-10); 
          setTime(25);
       } 
@@ -229,9 +251,9 @@ public class Fighter
    {
       BasicUp(){
          setPos(20,-10);
-         setSize(10,20);
+         setSize(10,10);
          setDamage(200);
-         setKnockBack(0,-200);
+         setKnockBack(4,-200);
          setTime(50);
       } 
    }
