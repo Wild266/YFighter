@@ -8,6 +8,7 @@ public class Fighter
    boolean right = false;
    int attacking = 0;
    int attackT = 0;
+   boolean blocking;
    Fighter.Attack attack;
    
 
@@ -83,7 +84,14 @@ public class Fighter
    {
       return this.attacking;
    }
-   
+   public boolean getBlocking()
+   {
+      return this.blocking;
+   }
+   public void setBlocking(boolean r)
+   {
+      this.blocking = r;
+   }
    public void setRight(boolean r)
    {
       this.right = r;
@@ -113,7 +121,6 @@ public class Fighter
 
    public abstract class Attack
    {
-      
       double[] pos = new double[2];
       int[] size = new int[2];
       double damage;
@@ -123,6 +130,7 @@ public class Fighter
       
       public double[] getKnockBack()
       {
+    	  
          return this.knockback;
       }
       
@@ -208,31 +216,58 @@ public class Fighter
    public class BasicDirection extends Attack
    {
       BasicDirection(){
-         setPos(10,10);
-         setSize(150,10);
-         setDamage(40);
-         setKnockBack(40,-10);
-         setTime(20);
+    	  
+    	  if (blocking) {
+    		  setPos(10,10);
+    	         setSize(150,10);
+    	         setDamage(10);
+    	         setKnockBack(15,-10);
+    	         setTime(20);
+    	  } else {
+    		  setPos(10,10);
+    	         setSize(150,10);
+    	         setDamage(40);
+    	         setKnockBack(40,-10);
+    	         setTime(20);
+    	  }
       }  
    }
    public class BasicNeutral extends Attack
    {      
       BasicNeutral(){
-         setPos(10,10);
-         setSize(70,30);
-         setDamage(150);
-         setKnockBack(60,-60);
-         setTime(30);
+    	  if (blocking) {
+    	         setPos(10,10);
+    	         setSize(70,30);
+    	         setDamage(50);
+    	         setKnockBack(30,-30);
+    	         setTime(30);
+    	  } else {
+    	         setPos(10,10);
+    	         setSize(70,30);
+    	         setDamage(150);
+    	         setKnockBack(60,-60);
+    	         setTime(30);
+    	  }
+
       } 
    }
    public class BasicUp extends Attack
    {
       BasicUp(){
-         setPos(20,-10);
-         setSize(10,20);
-         setDamage(200);
-         setKnockBack(0,-200);
-         setTime(50);
+    	  if (blocking) {
+    	         setPos(20,-10);
+    	         setSize(10,20);
+    	         setDamage(50);
+    	         setKnockBack(0,-70);
+    	         setTime(50);
+    	  } else {
+    	         setPos(20,-10);
+    	         setSize(10,20);
+    	         setDamage(200);
+    	         setKnockBack(0,-200);
+    	         setTime(50);
+    	  }
+
       } 
    }
 }
