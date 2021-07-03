@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +61,6 @@ public class Display extends JPanel implements KeyListener
       i[1] = (int)(b.getPos()[1]+ f1.getPos()[1]);
       i[2] = b.getSize()[0];
       i[3] = b.getSize()[1];
-
       return i;
    }
 
@@ -92,6 +92,10 @@ public class Display extends JPanel implements KeyListener
          
          g.fillRect((int)dFs[0].getPos()[0],(int)dFs[0].getPos()[1],dFs[0].getSize(),dFs[0].getSize());
 
+         if (dFs[0].getBlocking()) {
+        	 g.setColor(Color.white);
+        	 g.fillRect((int)dFs[1].getPos()[0]+10, (int)dFs[1].getPos()[1]+10, 30, 30);
+         }  
          if(dFs[0].getAttacking() == 1){
             g.setColor(Color.red);
             //g.setColor(Color.green);
@@ -101,10 +105,17 @@ public class Display extends JPanel implements KeyListener
 
             g.fillRect(i[0],i[1],i[2],i[3]);
          }
-
+         if (dFs[1].getBlocking()) {
+        	 g.setColor(Color.white);
+        	 g.fillRect((int)dFs[0].getPos()[0]+10, (int)dFs[0].getPos()[1]+10, 30, 30);
+         }  
          g.setColor(Color.cyan);
          g.fillRect((int)dFs[1].getPos()[0],(int)dFs[1].getPos()[1],dFs[1].getSize(),dFs[1].getSize());
-
+         if (dFs[0].getBlocking()) {
+        	 g.setColor(Color.white);
+        	 g.fillRect((int)dFs[1].getPos()[0]+10, (int)dFs[1].getPos()[1]+10, 30, 30);
+         }
+         
          if(dFs[1].getAttacking() == 1){
             g.setColor(Color.cyan);
             //g.setColor(Color.green);
@@ -117,22 +128,40 @@ public class Display extends JPanel implements KeyListener
 
       }else if(mode == 2)
       {
-      
-         g.setColor(Color.magenta);
-         g.setFont(new Font("serif", Font.BOLD, 100));
-         g.drawString("Game done",240,100);
+    	  g.setFont(new Font("Agency FB", Font.BOLD, 30));
+          g.setColor(Color.white);
+          g.drawString("Developed By Joseph Rother & Akshan Sameullah",470,570);
          if(dFs[0].getHealth() > 0)
          {
-            g.setFont(new Font("serif", Font.BOLD, 30));
+            g.setFont(new Font("Agency FB", Font.BOLD, 190));
             g.setColor(Color.red);
-            g.drawString("Read wiiiin",320,480);
+            g.drawString("Red Wins",360,200);
+            
+            
+            Graphics2D g2 = (Graphics2D) g;
+            AffineTransform at = new AffineTransform();
+            at.setToRotation(Math.toRadians(270), 440, 380);
+            g2.setTransform(at);
+            g2.setColor(Color.magenta);
+            g2.setFont(new Font("Magneto", Font.BOLD, 170));
+            g2.drawString("Game",250,80);
+            g2.drawString("Over",300,250);
          }else
          {
-            g.setFont(new Font("serif", Font.BOLD, 30));
-            g.setColor(Color.cyan);
-            g.drawString("Blew wiiiin",320,480);
+            g.setFont(new Font("Magneto", Font.BOLD, 200));
+            g.setColor(Color.magenta);
+            g.drawString("Game",270,180);
+            g.drawString("Over",320,380);
 
+            Graphics2D g2 = (Graphics2D) g;
+            AffineTransform at = new AffineTransform();
+            at.setToRotation(Math.toRadians(270), 440, 380);
+            g2.setTransform(at);
+            g2.setColor(Color.cyan);
+            g2.setFont(new Font("Agency FB", Font.BOLD, 170));
+            g2.drawString("Blue Wins",250,130);
          }
+         
       }
       
       g.dispose();
@@ -171,7 +200,7 @@ public class Display extends JPanel implements KeyListener
          {
             buttons[0][4] = true;
          }
-         if(e.getKeyChar() == 'g')
+         if(e.getKeyChar() == '/')
          {
             buttons[0][5] = true;
          }
@@ -195,7 +224,7 @@ public class Display extends JPanel implements KeyListener
          {
             buttons[1][4] = true;
          }
-         if(e.getKeyChar() == '/')
+         if(e.getKeyChar() == 'g')
          {
             buttons[1][5] = true;
          }
@@ -227,7 +256,7 @@ public class Display extends JPanel implements KeyListener
          {
             buttons[0][4] = false;
          }
-         if(e.getKeyChar() == 'g')
+         if(e.getKeyChar() == '/')
          {
             buttons[0][5] = false;
          }
@@ -251,7 +280,7 @@ public class Display extends JPanel implements KeyListener
          {
             buttons[1][4] = false;
          }
-         if(e.getKeyChar() == '/')
+         if(e.getKeyChar() == 'g')
          {
             buttons[1][5] = false;
          }
@@ -371,7 +400,9 @@ public class Display extends JPanel implements KeyListener
 
    public void setAttacking (Fighter f1 , Platform plat, boolean[] inputs)
    {
-      if (inputs[4] == true)
+
+    	  f1.setBlocking(inputs[5]);
+    	  if (inputs[4] == true)
       {
          if(f1.getAttacking() == 0)
          {
@@ -407,20 +438,26 @@ public class Display extends JPanel implements KeyListener
             f1.setAttacking(1);
          }
       }
+      
    }
 
    public void incrementAttack(Fighter f1, Fighter f2)
    {
-      if(f1.getAttacking() == 1)
+     
+	   if(f1.getAttacking() == 1)
       {
          if(f1.getAttackT() == 5)
          {
             int[] i = new int[4];
             i = attackHitBox(f1);
             
-            if (i[0] <= f2.getPos()[0] + f2.getSize() && i[0] + i[2] >= f2.getPos()[0] && i[1] <= f2.getPos()[1] + f2.getSize() && i[1] + i[3] >= f2.getPos()[1])
+            if ( i[0] <= f2.getPos()[0] + f2.getSize() && i[0] + i[2] >= f2.getPos()[0] && i[1] <= f2.getPos()[1] + f2.getSize() && i[1] + i[3] >= f2.getPos()[1])
             {
-               f2.setHealth(f2.getHealth() - f1.getAttack().getDamage());
+               if (!f1.getBlocking()) {
+            	f2.setHealth(f2.getHealth() - f1.getAttack().getDamage());
+               } else {
+            	   f2.setHealth(f2.getHealth());
+               }
                if(f1.getRight() == true){
                   f2.setKnockBackVel(f1.getAttack().getKnockBack()[0],f1.getAttack().getKnockBack()[1]);
                }else
