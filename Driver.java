@@ -37,16 +37,16 @@ public class Driver
         long lastTime = System.nanoTime();
         long StartTime = System.nanoTime();
         String[] planets = new String[]{
-                                        "mercuryd.png",
-                                        "venusd.png", 
-                                        "earthd.png",
-                                        "marsd.png",
-                                        "Jupiterd.png",
-                                        "saturnd.png",
-                                        "uranusd.png", 
-                                        "neptuned.png", 
-                                        "plutod.png",
-                                        "spacedd.png"};
+                                        "imgs/mercuryd.png",
+                                        "imgs/venusd.png", 
+                                        "imgs/earthd.png",
+                                        "imgs/marsd.png",
+                                        "imgs/Jupiterd.png",
+                                        "imgs/saturnd.png",
+                                        "imgs/uranusd.png", 
+                                        "imgs/neptuned.png", 
+                                        "imgs/plutod.png",
+                                        "imgs/spacedd.png"};
         double[] gravities = new double[]{
                                           0.38,
                                           0.907,
