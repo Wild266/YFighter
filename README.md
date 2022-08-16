@@ -61,7 +61,7 @@ Air Neutral - Done by pressing no movement keys while not on the platform and pr
 The player who wants to use the cyan block can use the arrow keys on the keyboard to move and their attack key is the period button ("."). The cyan player's health bar is the one on the top right.
 
 #### Red Player
-The player who wants to use the red block can use the WASD keys on the keyboard to move and their attack key is the F buttonwithout caps lock or shift key pressed (would type "f"). The red player's health bar is the one on the top left.
+The player who wants to use the red block can use the WASD keys on the keyboard to move and their attack key is the "F" button without caps lock or shift key pressed (would type "f"). The red player's health bar is the one on the top left.
 
 
 
