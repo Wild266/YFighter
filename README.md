@@ -64,3 +64,4 @@ The player who wants to use the cyan block can use the arrow keys on the keyboar
 #### Red Player
 The player who wants to use the red block can use the WASD keys on the keyboard to move and their attack key is the "F" button without caps lock or shift key pressed (would type "f"). The red player's block key is the "G" button without caps lock or shift pressed (would type "g"). The red player's health bar is the one on the top left.
 
+# Happy space battles!
