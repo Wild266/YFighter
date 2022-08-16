@@ -21,7 +21,7 @@ When running the file, you should see this Window pop up if the packages are ins
 ![image](https://user-images.githubusercontent.com/32823036/184906748-6db9814f-404c-4988-aac1-8b7f5b2cc620.png)
 
 
-To continue, simply press any key on the standard English keyboard.
+To continue, simply press the Space key on the standard English keyboard.
 
 You should get to a screen that looks like this:
 
