@@ -25,7 +25,7 @@ You should get to a screen that looks like this:
 
 ![image](https://user-images.githubusercontent.com/32823036/184793648-adf6f358-f14f-4971-9fcf-198d5770f92e.png)
 
-There are two players on the screen depicted by red and cyan squares. The white line on the bottom is known as the platform.
+There are two players on the screen depicted by red and cyan squares. The white line on the bottom is known as the platform. The two bars on the top of the screen are the health bars for each player. Each player has a set of keys they can use to move left, right, jump (and fall back to the ground), and fall faster to the ground (move downward faster than gravity would naturally take them when not on the ground). Each player also has an attack key they can press to attack the other player and lower the opponent's health bar.
 
 This is the start of the game. The player who wants to use the cyan block can use the arrow keys on the keyboard to move. 
 
