@@ -2,14 +2,13 @@
 
 ## Welcome to Yeet Fighter!
 
+## *Note: this is an old version! COme and play the latest version by switching to the "spacetable" branch! 
 ### Requirements
 
 Setup Java 7
 ```
 Ensure that importing javax.swing.*; works
 Ensure that importing javax.io.*; works
-Ensure that importing sun.audio.*; works
-Ensure that importing javax.sound.sampled.*; works
 ```
 
 ### Running the game
