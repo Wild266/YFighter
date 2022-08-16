@@ -35,7 +35,7 @@ public class Display extends JPanel implements KeyListener
       setFocusTraversalKeysEnabled(false);
       
       try {
-         backgroundImage = ImageIO.read(new File("spaced.png")); //sets the background image to "space.jpg"
+         backgroundImage = ImageIO.read(new File("imgs/spaced.png")); //sets the background image to "space.jpg"
       } 
       catch (Exception e) {
          System.out.println("Image not found");                 //there is no "space.jpg"
