@@ -39,10 +39,12 @@ Basic Up - Done by pressing the down movement key while on the platform and then
 
 
 Basic Directional - Done by pressing the left or right movement keys while on the platform and then pressing the attack button. Forms an attack box to the sides of the avatar.
+
 ![image](https://user-images.githubusercontent.com/32823036/184902959-7894c31e-3229-4083-b1d1-54024c639df3.png)
 
 
 Basic Neutral - Done by pressing no movement keys while on the platform and pressing the attack button. Forms an attack box to the sides of the avatar
+
 ![image](https://user-images.githubusercontent.com/32823036/184902699-89de0d19-99d7-42e0-b5ea-471d008d2c5d.png)
 
 
